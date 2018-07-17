@@ -20,7 +20,7 @@ class ModelCarreras {
         $jsonresponse = array();
         try{
             $result = array();
-
+            //falta codigo
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'listado correctamente';
             $jsonresponse['datos'] = $result;
@@ -36,7 +36,7 @@ class ModelCarreras {
     public function Obtener($id){
         $jsonresponse = array();
         try{
-
+            //falta codigo
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'Se obtuvo los Centros de Costos correctamente';
             $jsonresponse['datos'] = $busq->returnArray();

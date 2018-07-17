@@ -16,6 +16,7 @@ class Carreras{
 
     public function returnArray(){
     	return get_object_vars($this);
-    }    
+    } 
+    
 }
 ?>   
