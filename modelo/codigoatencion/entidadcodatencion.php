@@ -1,6 +1,6 @@
 <?php
 //carreras
-class Carreras{
+class CodigoAtencion{
     private $codatencion_id;
     private $codatencion_codigo;
     private $codatencion_obs;
