@@ -45,35 +45,37 @@ class ModelCodAtencion {
         }
     }
 
-   /* public function Obtener($id){
+    public function Obtener($id){
         $jsonresponse = array();
         try{
-            //falta codigo codigo_atencion_id  codigo_atencion_codigo  codigo_atencion_observacion
             $stm = $this->pdo->prepare("SELECT codatt.codigo_atencion_id,
                                                codatt.codigo_atencion_codigo,
                                                codatt.codigo_atencion_observacion
                                         FROM codigo_atencion as codatt
-                                        WHERE codatt.codigo_atencion_codigo = ? ");
-            $stm->execute();
-            $r = $stm->fetch(PDO::FETCH_OBJ);
-            if($r!= false){
-
+                                        WHERE codatt.codigo_atencion_id = ? ");
+            $stm->execute(array($id));
+            //$r = $stm->fetch(PDO::FETCH_OBJ);
+            //if($r!= false){
+            foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
                 $busq = new CodigoAtencion();
                         $busq->__SET('codatencion_id', $r->codigo_atencion_id);
-                        $busq->__SET('codatencion_codigo', $r->codigo_atencion_codigo);
-                        $busq->__SET('codatencion_obs', $r->codigo_atencion_observacion);
-                       
-            $jsonresponse['success'] = true;
-            $jsonresponse['message'] = 'Se obtuvo los Codigo de Atencion correctamente';
-            $jsonresponse['datos'] = $busq->returnArray();
+                        $busq->__SET('codatencion_codigo', utf8_encode($r->codigo_atencion_codigo));
+                        $busq->__SET('codatencion_obs', utf8_encode($r->codigo_atencion_observacion));
 
-        } catch (Exception $e){
+                $result[] = $busq->returnArray();
+            }         
+            $jsonresponse['success'] = true;
+            $jsonresponse['message'] = 'Se obtuvo el Codigo de Atencion correctamente';
+            $jsonresponse['datos'] = $result;
+            return $jsonresponse;
+        } 
+        catch (Exception $e){
             $jsonresponse['success'] = false;
             $jsonresponse['message'] = 'Error al obtener Codigo de Atencion';             
         }
         return $jsonresponse;
     }
-}
+/*
     public function Eliminar($id){
         $jsonresponse = array();
         try{    

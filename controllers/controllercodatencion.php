@@ -34,7 +34,7 @@ if(isset($_REQUEST['Accion'])){
             break;
 
         case 'obtener':
-            $jsondata = $modelcodatt->Obtener($_REQUEST['ccCodigo']);
+            $jsondata = $modelcodatt->Obtener($_REQUEST['id']);
             echo json_encode($jsondata);            
             break;
             
