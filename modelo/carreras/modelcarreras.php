@@ -49,7 +49,8 @@ class ModelCarreras {
 
     public function Eliminar($id){
         $jsonresponse = array();
-        try{    
+        try{
+            
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'Centro de Costos eliminado correctamente';              
         } catch (Exception $e){
