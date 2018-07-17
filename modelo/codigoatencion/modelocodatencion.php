@@ -25,17 +25,27 @@ class ModelCodAtencion {
                                                codatt.codigo_atencion_observacion
                                         FROM codigo_atencion as codatt");
             $stm->execute();
-            foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
-                $busq = new CodigoAtencion();
-                    $busq->__SET('codatencion_id', $r->codigo_atencion_id);
-                    $busq->__SET('codatencion_codigo', utf8_encode($r->codigo_atencion_codigo));
-                    $busq->__SET('codatencion_obs', utf8_encode($r->codigo_atencion_observacion));
-                
-                $result[] = $busq->returnArray();
+
+            $cols = $stm->columnCount();
+
+            print_r($cols);
+
+            if($cols==0){
+                 $jsonresponse['datos'] = null;
+            }else{
+                foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
+                    $busq = new CodigoAtencion();
+                        $busq->__SET('codatencion_id', $r->codigo_atencion_id);
+                        $busq->__SET('codatencion_codigo', utf8_encode($r->codigo_atencion_codigo));
+                        $busq->__SET('codatencion_obs', utf8_encode($r->codigo_atencion_observacion));
+                    
+                    $result[] = $busq->returnArray();
+                }
+                $jsonresponse['datos'] = $result;
             }
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'Codigos de Atención listados correctamente';
-            $jsonresponse['datos'] = $result;
+            
             return $jsonresponse;
         }
         catch(Exception $e){
