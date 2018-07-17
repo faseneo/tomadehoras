@@ -1,0 +1,137 @@
+
+.texto-vertical-3 {
+  width:10px;
+  /*word-wrap: break-word;*/
+  word-break: break-all;
+  text-align:center;
+  line-height:20px;
+  font-weight: bold;
+  /* margin-top: 800%;*/
+}
+.dia{
+  text-align:center;	
+  font-weight: bold;
+  margin: 0 0 0px;
+}
+.filabloqueo th{
+	border: 1px solid #ff0;
+	text-align: right;
+}
+.filabloqueo2 td{
+  border: 1px solid #ff0;
+  text-align: right;
+  font-weight: bold;
+}
+.filaasistente th{
+  border: 1px solid #ff0;
+  text-align: center;
+}
+.usuario{
+	padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+/* .agenda >tr.morning{
+	background-color: #CADBEE;
+} */
+.agenda {
+  margin-bottom: 0px; 
+}
+.agenda > thead > tr > td.morning,
+.agenda > tbody > tr > td.morning,
+.agenda > tfoot > tr > td.morning,
+.agenda > thead > tr > th.morning,
+.agenda > tbody > tr > th.morning,
+.agenda > tfoot > tr > th.morning,
+.agenda > thead > tr.morning > td,
+.agenda > tbody > tr.morning > td,
+.agenda > tfoot > tr.morning > td,
+.agenda > thead > tr.morning > th,
+.agenda > tbody > tr.morning > th,
+.agenda > tbody > tr.morning > th,
+.agenda > tfoot > tr.morning > th {
+  background-color: #edf3f9;
+}
+.agenda-hover > tbody > tr > td.morning:hover,
+.agenda-hover > tbody > tr > th.morning:hover,
+.agenda-hover > tbody > tr.morning:hover > td,
+.agenda-hover > tbody > tr:hover > .morning,
+.agenda-hover > tbody > tr.morning:hover > th {
+  background-color: #cadbee;
+}
+/*96b8de*/
+
+.agenda > thead > tr > td.afternoon,
+.agenda > tbody > tr > td.afternoon,
+.agenda > tfoot > tr > td.afternoon,
+.agenda > thead > tr > th.afternoon,
+.agenda > tbody > tr > th.afternoon,
+.agenda > tfoot > tr > th.afternoon,
+.agenda > thead > tr.afternoon > td,
+.agenda > tbody > tr.afternoon > td,
+.agenda > tfoot > tr.afternoon > td,
+.agenda > thead > tr.afternoon > th,
+.agenda > tbody > tr.afternoon > th,
+.agenda > tbody > tr.afternoon > th,
+.agenda > tfoot > tr.afternoon > th {
+  background-color: #f9f3ed;
+}
+.agenda-hover > tbody > tr > td.afternoon:hover,
+.agenda-hover > tbody > tr > th.afternoon:hover,
+.agenda-hover > tbody > tr.afternoon:hover > td,
+.agenda-hover > tbody > tr:hover > .afternoon,
+.agenda-hover > tbody > tr.afternoon:hover > th {
+  background-color: #eeddca;
+}
+/*e4c7a7*/
+
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+    }
+
+    /* Style the buttons inside the tab */
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+      font-size: 17px;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+
+
+.tabledia > thead > tr > th,
+.tabledia > tbody > tr > th,
+.tabledia > tfoot > tr > th,
+.tabledia > thead > tr > td,
+.tabledia > tbody > tr > td,
+.tabledia > tfoot > tr > td {
+    padding: 4px;
+    vertical-align: top;
+    line-height: 1.42857143;
+/*     line-height: 1.42857143;
+vertical-align: top; */
+    /* border-top: 1px solid #ddd; */
+}
