@@ -13,26 +13,26 @@ if(isset($_REQUEST['Accion'])){
     switch($_REQUEST['Accion']){
 
         case 'actualizar':
-            $facul->__SET('facultad_id',            $_REQUEST['']);
-            $facul->__SET('facultad_nombre',        $_REQUEST['']);
+            $facul->__SET('facul_id',            $_REQUEST['faculId']);
+            $facul->__SET('facul_nom',        $_REQUEST['faculNombre']);
             $jsondata = $modelFacul->Actualizar($facul);
 			echo json_encode($jsondata);
             break;
 
         case 'registrar':
-            $centroc->__SET('facultad_id',        $_REQUEST['']);
-            $centroc->__SET('facultad_nombre',    $_REQUEST['']);
+            $facul->__SET('facul_id',        $_REQUEST['faculId']);
+            $facul->__SET('facul_nom',    $_REQUEST['faculNombre']);
             $jsondata = $modelFacul->Registrar($facul);
             echo json_encode($jsondata);
             break;
 
         case 'eliminar':
-            $jsondata = $modelFacul->Eliminar($_REQUEST['']);
+            $jsondata = $modelFacul->Eliminar($_REQUEST['faculId']);
             echo json_encode($jsondata);
             break;
 
         case 'obtener':
-            $jsondata = $modelFacul->Obtener($_REQUEST['']);
+            $jsondata = $modelFacul->Obtener($_REQUEST['faculId']);
             echo json_encode($jsondata);            
             break;
             

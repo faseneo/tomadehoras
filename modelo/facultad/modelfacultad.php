@@ -86,7 +86,7 @@ class ModelFacultad {
             $sql = "INSERT INTO facultad (facultad_nombre) 
                     VALUES (?)";
 
-            $this->pdo->prepare($sql)->execute(array($data->__GET('facultad_nombre'))
+            $this->pdo->prepare($sql)->execute(array($data->__GET('facul_nom'))
                                               );
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'Facultad ingresada correctamente'; 
