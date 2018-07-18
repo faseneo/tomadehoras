@@ -48,9 +48,9 @@
                         + " \n jqXHR.status : " + jqXHR.status );
                 }
                 for(var i=0; i<data.datos.length;i++){
-                                console.log('id: '+data.datos[i].facul_id + ' nombre: '+data.datos[i].facul_nombre);
+                                console.log('id: '+data.datos[i].facul_id + ' nombre: '+data.datos[i].facul_nom);
 
-                                fila = '<tr  class="listafacultad"><td>'+ data.datos[i].facul_nombre +'</td>';
+                                fila = '<tr  class="listafacultad"><td>'+ data.datos[i].facul_nom +'</td>';
                                 fila += '<td><button id="ver-facultad" type="button" '
                                 fila += 'class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal"'
                                 fila += ' onclick="verFacultad(\'ver\',\'' + data.datos[i].facul_id + '\')">';
@@ -58,7 +58,7 @@
                                 fila += ' <button id="delete-language-modal" name="delete-language-modal" type="button" ';
                                 fila += 'class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModalDelete" ';
                                 fila += 'onclick="deleteFacultad(\''+ data.datos[i].facul_id +'\',\''
-                                + data.datos[i].facul_nombre +'\')">';
+                                + data.datos[i].facul_nom +'\')">';
                                 fila += 'Eliminar</button></td>';
                                 fila += '</tr>';
                                 $("#listafacultad").append(fila);
