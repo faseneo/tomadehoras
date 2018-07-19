@@ -106,11 +106,11 @@ class ModelFacultad {
                     WHERE  facultad_id = ?";
 
             $this->pdo->prepare($sql)
-                 ->execute(array($data->__GET('facultad_nombre'), 
-                                 $data->__GET('facultad_id'))
+                 ->execute(array($data->__GET('facul_nom'), 
+                                 $data->__GET('facul_id'))
                           );
             $jsonresponse['success'] = true;
-            $jsonresponse['message'] = ' Facultad actualizada correctamente';                 
+            $jsonresponse['message'] = 'Facultad actualizada correctamente';                 
         } catch (Exception $e){
             //die($e->getMessage());
             $jsonresponse['success'] = false;

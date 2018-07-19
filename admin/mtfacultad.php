@@ -1,7 +1,7 @@
 <html>
     <head>
 	<?php include "admheader.php"; ?>
-	<script src="../js/funcionesfacultad.js"></script>    
+	<script src="../js/fnfacultad.js"></script>    
     </head>
     <body>
 
