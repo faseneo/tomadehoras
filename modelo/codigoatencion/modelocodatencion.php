@@ -111,9 +111,7 @@ class ModelCodAtencion {
         return $jsonresponse;
     }
 
-
     public function Registrar(CodigoAtencion $data){
-
         $jsonresponse = array();
         try{
  
@@ -126,19 +124,24 @@ class ModelCodAtencion {
         } catch (PDOException $pdoException){
         //echo 'Error crear un nuevo elemento busquedas en Registrar(...): '.$pdoException->getMessage();
             die($e->getMessage());
-           /* $jsonresponse['success'] = false;
+            $jsonresponse['success'] = false;
             $jsonresponse['message'] = 'Error al ingresar Codigo de Atencion';
-            $jsonresponse['errorQuery'] = $pdoException->getMessage();*/
+            $jsonresponse['errorQuery'] = $pdoException->getMessage();
         }
         return $jsonresponse;
     }
-/*
-    public function Actualizar(CentroCostos $data){
+
+    public function Actualizar(CodigoAtencion $data){
         $jsonresponse = array();
         try{
-           
+
+           $sql = "UPDATE codigo_atencion SET  codigo_atencion_codigo = ?, codigo_atencion_observacion = ? WHERE  codigo_atencion_id = ?";
+            $this->pdo->prepare($sql)
+                 ->execute(array($data->__GET('codatencion_codigo'), 
+                                 $data->__GET('codatencion_obs'))
+                          );
             $jsonresponse['success'] = true;
-            $jsonresponse['message'] = ' actualizado correctamente';                 
+            $jsonresponse['message'] = 'Código de Atención actualizado correctamente';                 
         } catch (Exception $e){
             //die($e->getMessage());
             $jsonresponse['success'] = false;
@@ -157,6 +160,6 @@ class ModelCodAtencion {
         catch(Exception $e){
             die($e->getMessage());
         }
-    }*/
+    }
 }
 ?>
