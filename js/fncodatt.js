@@ -240,7 +240,7 @@
         //funcion levanta modal y muestra  los datos del centro de costo cuando presion boton Ver/Editar, aca se puede mdificar si quiere
         function verCodatt(action, codattid){
             deshabilitabotones();
-            var datay = {"id": codattid,
+            var datay = {"codattid": codattid, //Faltaba nombre asignado al id de codigo atencion en el controller
                          "Accion":"obtener"
                         };
             $.ajax({

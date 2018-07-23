@@ -138,7 +138,8 @@ class ModelCodAtencion {
            $sql = "UPDATE codigo_atencion SET  codigo_atencion_codigo = ?, codigo_atencion_observacion = ? WHERE  codigo_atencion_id = ?";
             $this->pdo->prepare($sql)
                  ->execute(array($data->__GET('codatencion_codigo'), 
-                                 $data->__GET('codatencion_obs'))
+                                 $data->__GET('codatencion_obs'),
+                                 $data->__GET('codatencion_id'))// agrego codigo_atencion_id faltante
                           );
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'Código de Atención actualizado correctamente';                 
