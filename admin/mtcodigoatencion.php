@@ -42,12 +42,12 @@
                             <input type="hidden" id="Accion" name="Accion" value="registrar">
                         <div class="modal-body">
                             <div class="form-group">
-                              <label for="codigo de atención">Código de Atención</label>
+                              <label for="codatt">Código de Atención</label>
                               <input type="text" class="form-control" id="codatt" name="codatt" placeholder="Código de atención">
                               <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                           </div>
                             <div class="form-group">
-                              <label for="Descripción Código">Descripción de Código de Atención</label>
+                              <label for="desccodatt">Descripción de Código de Atención</label>
                               <input type="text" class="form-control" id="desccodatt" name="desccodatt" placeholder="Descripción Código de Atención">
                           </div>
                         </div>
@@ -77,9 +77,9 @@
                     <div class="modal-body">
                         <div class="input-group">
                             <label for="pregunta">¿Está seguro de eliminar el Código de Atención seleccionado?</label>
-                        </div>       
+                        </div>
                         <div class="input-group">
-                            <label for="nameprov">Código de Atención</label>
+                            <label for="codatt">Código de Atención</label>
                             <input type="text" class="form-control" id="codatt" name="codatt" placeholder="" readonly>
                         </div>
                     </div>

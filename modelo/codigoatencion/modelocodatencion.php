@@ -72,14 +72,14 @@ class ModelCodAtencion {
                                         FROM codigo_atencion as codatt
                                         WHERE codatt.codigo_atencion_id = ? ");
                 $stm->execute(array($id));
-                foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
+                //quito el for para no crear arreglo de un resultado
+                $r = $stm->fetch(PDO::FETCH_OBJ);
                     $busq = new CodigoAtencion();
                             $busq->__SET('codatencion_id', $r->codigo_atencion_id);
                             $busq->__SET('codatencion_codigo', utf8_encode($r->codigo_atencion_codigo));
                             $busq->__SET('codatencion_obs', utf8_encode($r->codigo_atencion_observacion));
+                    $result = $busq->returnArray();
 
-                    $result[] = $busq->returnArray();
-                }         
                 $jsonresponse['success'] = true;
                 $jsonresponse['message'] = 'Se obtuvo el Codigo de Atencion correctamente';
                 $jsonresponse['datos'] = $result;

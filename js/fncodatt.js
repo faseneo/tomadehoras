@@ -5,18 +5,18 @@
     }
        function limpiaform(){
         $("#codatt").val("");
-        $("#descodatt").val("");
+        $("#desccodatt").val("");
         $("#codattid").val("");
     }        
     function habilitaform(){
         $("#codattid").prop( "disabled", false );
-        $("#descodatt").prop( "disabled", false );
+        $("#desccodatt").prop( "disabled", false );
         $("#codatt").prop( "disabled", false );
     }
     function deshabilitaform(){
         $("#codattid").prop( "disabled", true );
         $("#codatt").prop( "disabled", true );
-        $("#descodatt").prop( "disabled", true );
+        $("#desccodatt").prop( "disabled", true );
     }
     //funcion para validar campos del formulario
     function validarFormulario() {
@@ -256,9 +256,10 @@
                         + " \n textStatus : " + textStatus
                         + " \n jqXHR.status : " + jqXHR.status );
                 }
+                // cambio en nombre de campo codigo y nombre de input  de  obs
                 $("#codattid").val(data.datos.codatencion_id);
-                $("#codatt").val(data.datos.codatencion_nombre);
-                $("#descodatt").val(data.datos.codatencion_obs);
+                $("#codatt").val(data.datos.codatencion_codigo);
+                $("#desccodatt").val(data.datos.codatencion_obs);
 
                 deshabilitaform();
                 $("#Accion").val(action);
