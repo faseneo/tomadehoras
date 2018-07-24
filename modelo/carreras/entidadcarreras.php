@@ -1,16 +1,17 @@
 <?php
 //carreras
 class Carreras{
-    private $carrera_id;
-    private $carrera_codigo;
-    private $carrera_nombre;
-    private $carrera_facultad_id;
+    private $carr_id;
+    private $carr_cod;
+    private $carr_nom;
+    private $carr_facul_id;
+    
 
     public function __GET($k){
         return $this->$k;
     }
 
-    public function __SET($k, $v){
+    public function __SET($k, $v){ 
         return $this->$k = $v;
     }
 

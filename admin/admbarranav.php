@@ -14,7 +14,7 @@
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Mantendor<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="mtcarreras.php">Careras</a></li>
+						<li><a href="mtcarreras.php">Carreras</a></li>
 						<li><a href="mtfacultad.php">Facultad</a></li>
 						<li><a href="mtcodigoatencion.php">Codigo Atencion</a></li>						
 						<li><a href="mtdetalleatencion.php">Detalle Atención</a></li>

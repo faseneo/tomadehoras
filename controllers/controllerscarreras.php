@@ -2,44 +2,46 @@
 header('Content-type: application/json; charset=utf-8');
 /*error_reporting(E_ALL);
 ini_set('display_errors', '1');*/
-require_once '../modelo/carreras/entidad........php';
-require_once '../modelo/carreras/model.......php';
+require_once '../modelo/carreras/entidadcarreras.php';
+require_once '../modelo/carreras/modelcarreras.php';
 // Logica
-$entidad = new Clase_de_la_entidad();
-$modelentidad = new Model_de_la_entidad();
+$carr = new Carreras();
+$modelCarr = new ModelCarreras();
 
 if(isset($_REQUEST['Accion'])){
 
     switch($_REQUEST['Accion']){
 
         case 'actualizar':
-/*            $centroc->__SET('ccosto_codigo',        $_REQUEST['ccCodigo']);
-            $centroc->__SET('ccosto_nombre',        $_REQUEST['ccNombre']);
-            $centroc->__SET('ccosto_dep_codigo',    $_REQUEST['ccDependencia']);*/
-            $jsondata = $modelCentroc->Actualizar($centroc);
+            $carr->__SET('carr_id',             $_REQUEST['carrId']);
+            $carr->__SET('carr_cod',            $_REQUEST['carrCod']);
+            $carr->__SET('carr_nom',            $_REQUEST['carrNom']);
+            $carr->__SET('carr_facul_id',       $_REQUEST['carrFacId']);
+            $jsondata = $modelCarr->Actualizar($carr);
 			echo json_encode($jsondata);
             break;
 
         case 'registrar':
-/*            $centroc->__SET('ccosto_codigo',    $_REQUEST['ccCodigo']);
-            $centroc->__SET('ccosto_nombre',    $_REQUEST['ccNombre']);
-            $centroc->__SET('ccosto_dep_codigo',$_REQUEST['ccDependencia']);*/
-            $jsondata = $modelCentroc->Registrar($centroc);
+            $carr->__SET('carr_id',             $_REQUEST['carrId']);
+            $carr->__SET('carr_cod',            $_REQUEST['carrCod']);
+            $carr->__SET('carr_nom',            $_REQUEST['carrNom']);
+            $carr->__SET('carr_facul_id',       $_REQUEST['carrFacId']);
+            $jsondata = $modelCarr->Registrar($carr);
             echo json_encode($jsondata);
             break;
 
         case 'eliminar':
-            $jsondata = $modelCentroc->Eliminar($_REQUEST['ccCodigo']);
+            $jsondata = $modelCarr->Eliminar($_REQUEST['carrId']);
             echo json_encode($jsondata);
             break;
 
         case 'obtener':
-            $jsondata = $modelCentroc->Obtener($_REQUEST['ccCodigo']);
+            $jsondata = $modelCarr->Obtener($_REQUEST['carrId']);
             echo json_encode($jsondata);            
             break;
             
         case 'listar':
-            $jsondata = $modelCentroc->Listar();
+            $jsondata = $modelCarr->Listar();
             echo json_encode($jsondata);
             break;            
     }
