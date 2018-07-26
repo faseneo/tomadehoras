@@ -3,26 +3,26 @@
 <head>
     <?php include "admheader.php"; ?>    
     <title>Buscador</title>
-    <script src="../js/fnformaatt.js"></script>
+    <script src="../js/fnmotivoatt.js"></script>
 </head>
 <body>
     <?php include "admbarranav.php"; ?>
     <div class="container" style="margin-top:50px">
         <div class="row">
             <div class="col-md-9">  
-                <h2 class="sub-header">Formas de Atención</h2>
+                <h2 class="sub-header">Motivo de Atención</h2>
                 <div class="table-responsive">
-                    <button type="button" id="crea-formaatt" class="btn btn-sm btn-primary"
+                    <button type="button" id="crea-motivoatt" class="btn btn-sm btn-primary"
                     data-toggle="modal" data-target="#myModal" >NUEVO</button> 
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th width="25%">Forma de Atención</th>
+                                <th width="25%">Motivo de Atención</th>
                                 <th width="50%">Estado</th>
                                 <th width="25%">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="listaformaatt">
+                        <tbody id="listamotivoatt">
                         </tbody>
                     </table>
                 </div>
@@ -34,20 +34,20 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title-form" id="myModalLabel">Formas de Atención</h4>
+                    <h4 class="modal-title-form" id="myModalLabel">Motivo de Atención</h4>
                 </div>
-                <form role="form" name="formformaatt" id="formformaatt" method="post">
+                <form role="form" name="formmotivoatt" id="formmotivoatt" method="post">
                     <fieldset>
-                            <input type="hidden" name="formaattid" id="formaattid" value="" />
+                            <input type="hidden" name="motivoattid" id="motivoattid" value="" />
                             <input type="hidden" id="Accion" name="Accion" value="registrar">
                         <div class="modal-body">
                             <div class="form-group">
-                              <label for="formaatt">Forma de Atención</label>
-                              <input type="text" class="form-control" id="formaatt" name="formaatt" placeholder="Forma de Atención">
+                              <label for="motivoatt">Motivo de Atención</label>
+                              <input type="text" class="form-control" id="motivoatt" name="motivoatt" placeholder="Motivo de Atención">
                           </div>
                             <div class="form-group">
-                              <label for="formaattestado">Estado</label>
-                                <select class="form-control" name="formaattestado" id="formaattestado">
+                              <label for="motivoattestado">Estado</label>
+                                <select class="form-control" name="motivoattestado" id="motivoattestado">
                                     <option value="1">Activo</option>
                                     <option value="0">No Activo</option>
                                 </select>
@@ -55,9 +55,9 @@
                           </div>
                         </div>
                         <div class="modal-footer">
-                            <button id="editar-formaatt" name="editar-formaatt" type="button" class="btn btn-warning">Editar</button>
-                            <button id="actualizar-formaatt" name="actualizar-formaatt" type="button" class="btn btn-primary">Actualizar</button> 
-                            <button id="guardar-formaatt" name="guardar-formaatt" type="button" class="btn btn-primary">Guardar Nuevo</button>
+                            <button id="editar-motivoatt" name="editar-motivoatt" type="button" class="btn btn-warning">Editar</button>
+                            <button id="actualizar-motivoatt" name="actualizar-motivoatt" type="button" class="btn btn-primary">Actualizar</button> 
+                            <button id="guardar-motivoatt" name="guardar-motivoatt" type="button" class="btn btn-primary">Guardar Nuevo</button>
                             <button id="cancel" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                         </div>
                     </fieldset>
@@ -72,22 +72,22 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalDeleteLabel">Eliminación de Forma de Atención</h4>
+                    <h4 class="modal-title" id="myModalDeleteLabel">Eliminación de Motivo de Atención</h4>
                 </div>
-                <form role="form" name="formDeleteFormaatt" id="formDeleteFormaatt" method="post" action="">
-                    <input type="hidden" name="formaattid" id="formaattid" value="" />
+                <form role="form" name="formDeleteMotivoatt" id="formDeleteMotivoatt" method="post" action="">
+                    <input type="hidden" name="motivoattid" id="motivoattid" value="" />
                     <input type="hidden" name="Accion" id="Accion" value="" />
                     <div class="modal-body">
                         <div class="input-group">
-                            <label for="pregunta">¿Está seguro de eliminar la Forma de Atención seleccionada?</label>
+                            <label for="pregunta">¿Está seguro de eliminar el Motivo de Atención seleccionado?</label>
                         </div>
                         <div class="input-group">
-                            <label for="formaatt">Código de Atención</label>
-                            <input type="text" class="form-control" id="formaatt" name="formaatt" placeholder="" readonly>
+                            <label for="motivoatt">Motivo de Atención</label>
+                            <input type="text" class="form-control" id="motivoatt" name="motivoatt" placeholder="" readonly>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="eliminar-formaatt" name="eliminar-formaatt" type="button" class="btn btn-primary">Aceptar</button>
+                        <button id="eliminar-motivoatt" name="eliminar-motivoatt" type="button" class="btn btn-primary">Aceptar</button>
                         <button id="cancel" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </form>
