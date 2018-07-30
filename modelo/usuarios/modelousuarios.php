@@ -1,0 +1,172 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+require_once("../config/config.php");
+class ModelUsuarios {
+    private $pdo;
+
+    public function __CONSTRUCT(){
+        try{
+            $this->pdo = new PDO("mysql:host=".HOST.";dbname=".DB, USERDB, PASSDB);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);                
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    public function Listar(){
+        $jsonresponse = array();
+        try{
+            $consulta = "SELECT COUNT(*) FROM usuarios";
+            $res = $this->pdo->query($consulta);
+            if ($res->fetchColumn() == 0) {
+                $jsonresponse['success'] = true;
+                $jsonresponse['message'] = 'Usuarios sin elementos';                
+                $jsonresponse['datos'] = [];
+            }else{
+                $result = array();
+                $stm = $this->pdo->prepare("SELECT 
+                                                  *
+                                            FROM usuarios as user,rol_usuario as ru
+                                            where ru.rol_id = user.usuarios_rol_id ");
+                $stm->execute();
+                foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
+                    $busq = new Usuarios();
+                        $busq->__SET('usu_username',    $r->usuarios_username);
+                        $busq->__SET('usu_password',    $r->usuarios_password);
+                        $busq->__SET('usu_rol_id',      $r->usuarios_rol_id);
+                         $busq->__SET('usu_rol_nombre', $r->rol_nombre);
+                        $busq->__SET('usu_estado',      $r->usuarios_activo);
+
+                    $result[] = $busq->returnArray();
+                }
+                $jsonresponse['success'] = true;
+                $jsonresponse['message'] = 'Usuarios listados correctamente';
+                $jsonresponse['datos'] = $result;
+                $stm=null;
+            }
+            $res=null;
+        }
+        catch(Exception $e){
+            //die($e->getMessage());
+            $jsonresponse['success'] = false;
+            $jsonresponse['message'] = 'Error al listar los Usuarios';
+            $jsonresponse['datos'] = null;
+        }
+        $this->pdo=null;
+        return $jsonresponse;
+    }
+
+    public function Obtener($username){
+        $jsonresponse = array();
+        try{
+            $consulta = "SELECT COUNT(*) FROM usuarios";
+            $res = $this->pdo->query($consulta);
+            if ($res->fetchColumn() == 0) {
+                $jsonresponse['success'] = true;
+                $jsonresponse['message'] = 'Usuarios sin elementos';                
+                $jsonresponse['datos'] = [];
+            }else{
+            $stm = $this->pdo->prepare("SELECT user.usuarios_username,
+                                               user.usuarios_password,
+                                               user.usuarios_activo,
+                                               user.usuarios_rol_id
+                                        FROM usuarios as user
+                                        WHERE user.usuarios_username = ? ");
+                $stm->execute(array($id));
+                //quito el for para no crear arreglo de un resultado
+                $r = $stm->fetch(PDO::FETCH_OBJ);
+                    $busq = new Usuarios();
+                            $busq->__SET('usu_username',  $r->usuarios_username);
+                            $busq->__SET('usu_password',  $r->usuarios_password);
+                            $busq->__SET('usu_rol',       $r->usuarios_rol_id);
+                            $busq->__SET('usu_estado',    $r->usuarios_activo);
+                    $result = $busq->returnArray();
+
+                $jsonresponse['success'] = true;
+                $jsonresponse['message'] = 'Se obtuvo el Usuario correctamente';
+                $jsonresponse['datos'] = $result;
+                $stm=null;
+            }
+            $res=null;
+            return $jsonresponse;
+        } 
+        catch (Exception $e){
+            $jsonresponse['success'] = false;
+            $jsonresponse['message'] = 'Error al obtener el Usuario';             
+        }
+        return $jsonresponse;
+    }
+
+    public function Eliminar($username){
+        $jsonresponse = array();
+        try{
+            $stm = $this->pdo->prepare("DELETE FROM usuarios WHERE usuarios_username = ? ");
+                    
+                    $stm->execute(array($username));
+            
+            $jsonresponse['success'] = true;
+            $jsonresponse['message'] = 'Usuario eliminado correctamente';              
+        } catch (Exception $e){
+            $jsonresponse['success'] = false;
+            $jsonresponse['message'] = 'Error al eliminar el Usuario';            
+        }
+        return $jsonresponse;
+    }
+
+    public function Registrar(Usuarios $data){
+        $jsonresponse = array();
+        try{
+ 
+            $stm = $this->pdo->prepare("INSERT INTO usuarios (usuarios_username, usuarios_password, usuarios_activo, usuarios_rol_id) VALUES (?,?,?,?)");
+            $stm->execute(array($data->__GET("usuarios_username"),
+                                $data->__GET("usuarios_activo")));
+
+            $jsonresponse['success'] = true;
+            $jsonresponse['message'] = 'Usuario ingresado correctamente'; 
+        } catch (Exception $e){
+        //echo 'Error crear un nuevo elemento busquedas en Registrar(...): '.$pdoException->getMessage();
+            die($e->getMessage());
+            $jsonresponse['success'] = false;
+            $jsonresponse['message'] = 'Error al ingresar nuevo Usuario';
+            $jsonresponse['errorQuery'] = $pdoException->getMessage();
+        }
+        return $jsonresponse;
+    }
+
+    public function Actualizar(MotivoAtencion $data){
+        $jsonresponse = array();
+        try{
+
+           $sql = "UPDATE usuarios SET  usuarios_username = ?, usuarios_password = ?, usuarios_activo = ?, usuarios_rol_id = ? WHERE  usuarios_username = ?";
+            $this->pdo->prepare($sql)
+                 ->execute(array($data->__GET('usu_username'), 
+                                 $data->__GET('usu_password'),
+                                 $data->__GET('usu_estado'),
+                                 $data->__GET('usu_rol'))
+                          );
+            $jsonresponse['success'] = true;
+            $jsonresponse['message'] = 'Usuario actualizado correctamente';                 
+        } catch (Exception $e){
+            //die($e->getMessage());
+            $jsonresponse['success'] = false;
+            $jsonresponse['message'] = 'Error al actualizar ';             
+        }
+        return $jsonresponse;
+    }
+
+    public function Listar2(){
+        $jsonresponse = array();
+        try{
+            $result = array();
+
+            return $result;
+        }
+        catch(Exception $e){
+            die($e->getMessage());
+        }
+    }
+}
+?>
