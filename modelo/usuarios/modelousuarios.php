@@ -34,10 +34,11 @@ class ModelUsuarios {
                 $stm->execute();
                 foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
                     $busq = new Usuarios();
+                        $busq->__SET('usu_id',          $r->usuarios_id);
                         $busq->__SET('usu_username',    $r->usuarios_username);
                         $busq->__SET('usu_password',    $r->usuarios_password);
                         $busq->__SET('usu_rol_id',      $r->usuarios_rol_id);
-                         $busq->__SET('usu_rol_nombre', $r->rol_nombre);
+                        $busq->__SET('usu_rol_nombre',  $r->rol_nombre);
                         $busq->__SET('usu_estado',      $r->usuarios_activo);
 
                     $result[] = $busq->returnArray();
@@ -59,7 +60,7 @@ class ModelUsuarios {
         return $jsonresponse;
     }
 
-    public function Obtener($username){
+    public function Obtener($id){
         $jsonresponse = array();
         try{
             $consulta = "SELECT COUNT(*) FROM usuarios";
@@ -69,20 +70,22 @@ class ModelUsuarios {
                 $jsonresponse['message'] = 'Usuarios sin elementos';                
                 $jsonresponse['datos'] = [];
             }else{
-            $stm = $this->pdo->prepare("SELECT user.usuarios_username,
+            $stm = $this->pdo->prepare("SELECT user.usuarios_id,
+                                               user.usuarios_username,
                                                user.usuarios_password,
                                                user.usuarios_activo,
                                                user.usuarios_rol_id
                                         FROM usuarios as user
-                                        WHERE user.usuarios_username = ? ");
+                                        WHERE user.usuarios_id = ? ");
                 $stm->execute(array($id));
                 //quito el for para no crear arreglo de un resultado
                 $r = $stm->fetch(PDO::FETCH_OBJ);
                     $busq = new Usuarios();
+                            $busq->__SET('usu_id',        $r->usuarios_id);
                             $busq->__SET('usu_username',  $r->usuarios_username);
                             $busq->__SET('usu_password',  $r->usuarios_password);
-                            $busq->__SET('usu_rol',       $r->usuarios_rol_id);
                             $busq->__SET('usu_estado',    $r->usuarios_activo);
+                            $busq->__SET('usu_rol_id',    $r->usuarios_rol_id);
                     $result = $busq->returnArray();
 
                 $jsonresponse['success'] = true;
@@ -100,12 +103,13 @@ class ModelUsuarios {
         return $jsonresponse;
     }
 
-    public function Eliminar($username){
+    public function Eliminar($usu_id){
         $jsonresponse = array();
         try{
-            $stm = $this->pdo->prepare("DELETE FROM usuarios WHERE usuarios_username = ? ");
+            //var_dump($usu_id); //con esto veo los datos que me llegan
+            $stm = $this->pdo->prepare("DELETE FROM usuarios WHERE usuarios_id = ? ");
                     
-                    $stm->execute(array($username));
+                    $stm->execute(array($usu_id));
             
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'Usuario eliminado correctamente';              
@@ -120,9 +124,12 @@ class ModelUsuarios {
         $jsonresponse = array();
         try{
  
-            $stm = $this->pdo->prepare("INSERT INTO usuarios (usuarios_username, usuarios_password, usuarios_activo, usuarios_rol_id) VALUES (?,?,?,?)");
-            $stm->execute(array($data->__GET("usuarios_username"),
-                                $data->__GET("usuarios_activo")));
+            $stm = $this->pdo->prepare("INSERT INTO usuarios (usuarios_username, usuarios_password, usuarios_activo, usuarios_rol_id) VALUES (?,md5(?),?,?)");
+            $stm->execute(array($data->__GET("usu_username"),
+                                $data->__GET("usu_password"),
+                                $data->__GET("usu_estado"),
+                                $data->__GET("usu_rol_id"))
+                         );
 
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'Usuario ingresado correctamente'; 
@@ -136,23 +143,24 @@ class ModelUsuarios {
         return $jsonresponse;
     }
 
-    public function Actualizar(MotivoAtencion $data){
+    public function Actualizar(Usuarios $data){
         $jsonresponse = array();
         try{
-
-           $sql = "UPDATE usuarios SET  usuarios_username = ?, usuarios_password = ?, usuarios_activo = ?, usuarios_rol_id = ? WHERE  usuarios_username = ?";
+            //var_dump($data); con esto veo los datos que me llegan
+           $sql = "UPDATE usuarios SET  usuarios_username = ?, usuarios_password = md5(?), usuarios_activo = ?, usuarios_rol_id = ? WHERE  usuarios_id = ?";
             $this->pdo->prepare($sql)
                  ->execute(array($data->__GET('usu_username'), 
                                  $data->__GET('usu_password'),
                                  $data->__GET('usu_estado'),
-                                 $data->__GET('usu_rol'))
+                                 $data->__GET('usu_rol_id'),
+                                 $data->__GET('usu_id'))
                           );
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'Usuario actualizado correctamente';                 
         } catch (Exception $e){
             //die($e->getMessage());
             $jsonresponse['success'] = false;
-            $jsonresponse['message'] = 'Error al actualizar ';             
+            $jsonresponse['message'] = 'Error al actualizar '.$e->getMessage();             
         }
         return $jsonresponse;
     }

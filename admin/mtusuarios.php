@@ -39,7 +39,7 @@
                 </div>
                 <form role="form" name="formusuarios" id="formusuarios" method="post">
                     <fieldset>
-                            <!-- <input type="hidden" name="username" id="username" value="" /> -->
+                            <input type="hidden" name="id" id="id" value="" />
                             <input type="hidden" id="Accion" name="Accion" value="registrar">
                         <div class="modal-body">
                             <div class="form-group">
@@ -53,8 +53,8 @@
                           <div class="form-group">
                               <label for="rol">Rol</label>
                                 <select class="form-control" name="rol" id="rol">
-                                    <option value="1">Activo</option>
-                                    <option value="0">No Activo</option>
+                                    <option value="2">Asistente</option>
+                                    <option value="1">Administrador</option>
                                 </select>
                               <!-- <input type="text" class="form-control" id="formaattestado" name="formaattestado" placeholder="Estado"> -->
                           </div>
@@ -87,8 +87,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalDeleteLabel">Eliminación de Usuarios</h4>
                 </div>
-                <form role="form" name="formDeleteUsuarios" id="formDeleteUsuarios" idmethod="post" action="">
-                    <input type="hidden" name="username" id="username" value="" />
+                <form role="form" name="formDeleteUsuarios" id="formDeleteUsuarios" method="post" action="">
+                    <input type="hidden" name="usu_id" id="usu_id" value="" />
                     <input type="hidden" name="Accion" id="Accion" value="" />
                     <div class="modal-body">
                         <div class="input-group">

@@ -16,7 +16,8 @@ if(isset($_REQUEST['Accion'])){
             $usuarios->__SET('usu_username',  $_REQUEST['username']);
             $usuarios->__SET('usu_password',  $_REQUEST['pass']);
             $usuarios->__SET('usu_estado',    $_REQUEST['estado']);
-            $usuarios->__SET('usu_rol',       $_REQUEST['rol']);
+            $usuarios->__SET('usu_rol_id',    $_REQUEST['rol']);
+            $usuarios->__SET('usu_id',        $_REQUEST['id']);
             $jsondata = $modelusuarios->Actualizar($usuarios);
             echo json_encode($jsondata);
             break;
@@ -25,18 +26,18 @@ if(isset($_REQUEST['Accion'])){
             $usuarios->__SET('usu_username',  $_REQUEST['username']);
             $usuarios->__SET('usu_password',  $_REQUEST['pass']);
             $usuarios->__SET('usu_estado',    $_REQUEST['estado']);
-            $usuarios->__SET('usu_rol',       $_REQUEST['rol']);
+            $usuarios->__SET('usu_rol_id',    $_REQUEST['rol']);
             $jsondata = $modelusuarios->Registrar($usuarios);
             echo json_encode($jsondata);
             break;
 
             case 'eliminar':
-            $jsondata = $modelusuarios->Eliminar($_REQUEST['username']);
+            $jsondata = $modelusuarios->Eliminar($_REQUEST['usu_id']);
             echo json_encode($jsondata);
             break;
 
             case 'obtener':
-            $jsondata = $modelusuarios->Obtener($_REQUEST['username']);
+            $jsondata = $modelusuarios->Obtener($_REQUEST['id']);
             echo json_encode($jsondata);            
             break;
             

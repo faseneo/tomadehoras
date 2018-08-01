@@ -1,6 +1,7 @@
 <?php
 //Usuarios
 class Usuarios{
+    private $usu_id;
     private $usu_username;
     private $usu_password;
     private $usu_estado;
