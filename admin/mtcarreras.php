@@ -9,7 +9,7 @@
 
         <div class="container" style="margin-top:50px">
             <div class="row">
-				<div class="col-md-9">
+				<div class="col-md-12">
 					<h2 class="sub-header">Carreras</h2>
 					<div class="table-responsive">
 						<!-- Añadimos un botón para el diálogo modal onclick="newServicio()"-->
@@ -18,10 +18,10 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th width="25%">Nombre</th>
-									<th width="25%">Codigo</th>
-									<th width="25%">Facultad Id</th>
-									<th width="25%">Acciones</th>
+									<th width="45%">Nombre</th>
+									<th width="5%">Codigo</th>
+									<th width="30%">Facultad</th>
+									<th width="20%">Acciones</th>
 								</tr>
 							</thead>
 							<tbody id="listacarreras">
@@ -52,9 +52,12 @@
 							<input id="carrCod" class="form-control" type="text" name="carrCod" value="" title="Ingrese un codigo" required />
 						</div>
 						<div class="form-group">
-							<label for="carrFacId">Facultad Id</label>
-							<input id="carrFacId" class="form-control" type="text" name="carrFacId" value="" title="Ingrese un Id" required />
-						</div>
+                              <label for="carrFac">Facultad</label>
+                                <select class="form-control" name="carrFac" id="carrFac">
+                                    
+                                </select>
+                              <!-- <input type="text" class="form-control" id="formaattestado" name="formaattestado" placeholder="Estado"> -->
+                          </div>
 					</div>
 					<div class="modal-footer">
 						<button id="editar-carrera" name="editar-carrera" type="button" class="btn btn-warning">Editar</button>

@@ -7,26 +7,26 @@
             $("#carrId").val("");
             $("#carrCod").val("");
             $("#carrNom").val("");
-            $("#carrFacId").val("");
+            $("#carrFac").val("");
         }        
         function habilitaform(){
             $("#carrId").prop( "disabled", false );
             $("#carrCod").prop( "disabled", false );
             $("#carrNom").prop( "disabled", false );
-            $("#carrFacId").prop( "disabled", false );
+            $("#carrFac").prop( "disabled", false );
         }
         function deshabilitaform(){
             $("#carrId").prop( "disabled", true );
             $("#carrCod").prop( "disabled", true );
             $("#carrNom").prop( "disabled", true );
-            $("#carrFacId").prop( "disabled", true );
+            $("#carrFac").prop( "disabled", true );
         }
 
     $(document).ready(function(){
         function validarFormulario(){
             var txtCodigo = document.getElementById('carrCod').value;
             var txtNombre = document.getElementById('carrNom').value;
-            var txtFacId = document.getElementById('carrFacId').value;
+            var txtFac = document.getElementById('carrFac').value;
                 //Test campo obligatorio
                 if(txtCodigo == null || txtCodigo.length == 0 || /^\s+$/.test(txtCodigo)){
                     alert('ERROR: El campo codigo no debe ir vacío o con espacios en blanco');
@@ -38,9 +38,9 @@
                     document.getElementById('carrNom').focus();
                     return false;
                 }
-                if(txtFacId == null || txtFacId.length == 0 || /^\s+$/.test(txtFacId)){
+                if(txtFac == null || txtFac.length == 0 || /^\s+$/.test(txtFac)){
                     alert('ERROR: El campo facultad Id no debe ir vacío o con espacios en blanco');
-                    document.getElementById('carrFacId').focus();
+                    document.getElementById('carrFac').focus();
                     return false;
                 }               
             return true;
@@ -70,7 +70,7 @@
 
                                 fila = '<tr  class="listacarreras"><td>'+ data.datos[i].carr_nom +'</td>';
                                 fila += '<td>'+ data.datos[i].carr_cod +'</td>';
-                                fila += '<td>'+ data.datos[i].carr_facul_id +'</td>';
+                                fila += '<td>'+ data.datos[i].carr_facul_nombre +'</td>';
 
                                 fila += '<td><button id="ver-carrera" type="button" '
                                 fila += 'class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal"'
@@ -100,6 +100,7 @@
             e.preventDefault();
             limpiaform();
             habilitaform();
+            getlistafacultad();
             $("#Accion").val("registrar");
             $('#myModal').on('shown.bs.modal', function () {
                 var modal = $(this);
@@ -253,6 +254,41 @@
         deshabilitabotones();
         getlista();
     });
+    //permite listar los roles de usuario en el combo box
+        var getlistafacultad = function (){
+            var datax = {
+                "Accion":"listar"
+            }
+            $.ajax({
+                data: datax, 
+                type: "GET",
+                dataType: "json", 
+                url: "../controllers/controllersfacultad.php", 
+            })
+            .done(function( data, textStatus, jqXHR ) {
+                $("#carrFac").html("");
+                if ( console && console.log ) {
+                    console.log( " data success : "+ data.success 
+                        + " \n data msg : "+ data.message 
+                        + " \n textStatus : " + textStatus
+                        + " \n jqXHR.status : " + jqXHR.status );
+                }
+                $("#carrFac").append('<option value="">- Selecciona una Facultad -</option>');
+                for(var i=0; i<data.datos.length;i++){
+                                console.log('id: '+data.datos[i].facul_id + ' nombre: '+data.datos[i].facul_nom);
+                                opcion = '<option value = '+data.datos[i].facul_id+'>'+data.datos[i].facul_nom+'</option>';
+                                $("#carrFac").append(opcion);
+                            }
+                        })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if ( console && console.log ) {
+                    console.log( " La solicitud getlista ha fallado,  textStatus : " +  textStatus 
+                        + " \n errorThrown : "+ errorThrown
+                        + " \n textStatus : " + textStatus
+                        + " \n jqXHR.status : " + jqXHR.status );
+                }
+            });
+        }
     //funcion levanta modal y muestra  los datos de Facultad cuando presion boton Ver/Editar, aca se puede modificar si quiere
     function verCarrera(action, carreraid){
         deshabilitabotones();
@@ -272,10 +308,11 @@
                     + " \n textStatus : " + textStatus
                     + " \n jqXHR.status : " + jqXHR.status );
             }
+            limpiaform();
             $("#carrId").val(data.datos.carr_id);
             $("#carrCod").val(data.datos.carr_cod);
             $("#carrNom").val(data.datos.carr_nom);
-            $("#carrFacId").val(data.datos.carr_facul_id);
+            $("#carrFac").val(data.datos.carr_facul_nombre);
 
             deshabilitaform();
             $("#Accion").val(action);

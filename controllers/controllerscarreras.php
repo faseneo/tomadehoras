@@ -25,7 +25,7 @@ if(isset($_REQUEST['Accion'])){
             $carr->__SET('carr_id',             $_REQUEST['carrId']);
             $carr->__SET('carr_cod',            $_REQUEST['carrCod']);
             $carr->__SET('carr_nom',            $_REQUEST['carrNom']);
-            $carr->__SET('carr_facul_id',       $_REQUEST['carrFacId']);
+            $carr->__SET('carr_facul_id',       $_REQUEST['carrFac']);
             $jsondata = $modelCarr->Registrar($carr);
             echo json_encode($jsondata);
             break;

@@ -5,6 +5,7 @@ class Carreras{
     private $carr_cod;
     private $carr_nom;
     private $carr_facul_id;
+    private $carr_facul_nombre;
     
 
     public function __GET($k){

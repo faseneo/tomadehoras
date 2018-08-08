@@ -20,10 +20,7 @@ class ModelCarreras {
         $jsonresponse = array();
         try{
             $result = array();
-            $stm = $this->pdo->prepare("SELECT  ca.carrera_id,
-                                                ca.carrera_codigo,
-                                                ca.carrera_nombre,
-                                                ca.carrera_facultad_id
+            $stm = $this->pdo->prepare("SELECT  *
                                         FROM carreras as ca, facultad as fa 
                                         WHERE ca.carrera_facultad_id= fa.facultad_id ");
             $stm->execute();
@@ -33,6 +30,7 @@ class ModelCarreras {
                     $busq->__SET('carr_cod', $r->carrera_codigo);
                     $busq->__SET('carr_nom', $r->carrera_nombre);
                     $busq->__SET('carr_facul_id', $r->carrera_facultad_id);
+                    $busq->__SET('carr_facul_nombre', $r->facultad_nombre);
 
                 $result[] = $busq->returnArray();
             }
@@ -52,10 +50,7 @@ class ModelCarreras {
         $jsonresponse = array();
         try{
             $stm = $this->pdo
-                       ->prepare("SELECT ca.carrera_id,
-                                         ca.carrera_codigo,
-                                         ca.carrera_nombre,
-                                         ca.carrera_facultad_id
+                       ->prepare("SELECT *
                                         FROM carreras as ca, facultad as fa 
                                         WHERE ca.carrera_facultad_id = fa.facultad_id
                                         AND ca.carrera_id = ?");
@@ -66,6 +61,7 @@ class ModelCarreras {
                     $busq->__SET('carr_cod', $r->carrera_codigo);
                     $busq->__SET('carr_nom', $r->carrera_nombre);
                     $busq->__SET('carr_facul_id', $r->carrera_facultad_id);
+                    $busq->__SET('carr_facul_nombre', $r->facultad_nombre);
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'Se obtuvo las Carreras correctamente';
             $jsonresponse['datos'] = $busq->returnArray();

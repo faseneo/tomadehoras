@@ -25,8 +25,8 @@ function deshabilitabotones(){
     function validarFormulario() {
         var txtusername = document.getElementById('username').value;
         var txtpass = document.getElementById('pass').value;
-        var txtrol = document.getElementById('rol').value;
-        var txtestado = document.getElementById('estado').value;
+        var selrol = document.getElementById('rol').selectedIndex;
+        var selestado = document.getElementById('estado').selectedIndex;
         /*Test campo obligatorio*/
         if (txtusername == null || txtusername.length == 0) {
             alert('ERROR: El campo "Nombre de Usuario" no debe ir vacío o con espacios en blanco');
@@ -38,12 +38,12 @@ function deshabilitabotones(){
             document.getElementById('pass').focus();
             return false;
         }
-        if (txtrol == null || txtrol.length == 0) {
+        if (selrol == null || selrol == 0) {
             alert('ERROR: Seleccione un Rol');
             document.getElementById('rol').focus();
             return false;
         }
-        if (txtestado == null || txtestado.length == 0) {
+        if (selestado == null || selestado == "") {
             alert('ERROR: Seleccione un Estado');
             document.getElementById('estado').focus();
             return false;
@@ -106,6 +106,7 @@ function deshabilitabotones(){
                 e.preventDefault();
                 limpiaform();
                 habilitaform();
+                getlistarolusu();
                 $("#Accion").val("registrar");
                 $('#myModal').on('shown.bs.modal', function () {
                     var modal = $(this);
@@ -164,7 +165,7 @@ function deshabilitabotones(){
                 habilitaform();
                 deshabilitabotones();
                 $('#actualizar-usuarios').show();
-                $("#Accion").val("actualizar");               
+                $("#Accion").val("actualizar");              
             });
             //  envia los nuevos datos para actualizar
             $("#actualizar-usuarios").click(function(e){
@@ -255,9 +256,46 @@ function deshabilitabotones(){
             deshabilitabotones();
             getlista();
         });
+        //permite listar los roles de usuario en el combo box
+        var getlistarolusu = function (){
+            var datax = {
+                "Accion":"listar"
+            }
+            $.ajax({
+                data: datax, 
+                type: "GET",
+                dataType: "json", 
+                url: "../controllers/controllersrolusuario.php", 
+            })
+            .done(function( data, textStatus, jqXHR ) {
+                $("#rol").html("");
+                if ( console && console.log ) {
+                    console.log( " data success : "+ data.success 
+                        + " \n data msg : "+ data.message 
+                        + " \n textStatus : " + textStatus
+                        + " \n jqXHR.status : " + jqXHR.status );
+                }
+                $("#rol").append('<option value="">- Selecciona un Rol -</option>');
+                for(var i=0; i<data.datos.length;i++){
+                                console.log('id: '+data.datos[i].rol_usu_id + ' nombre: '+data.datos[i].rol_usu_nom);
+                                opcion = '<option value = '+data.datos[i].rol_usu_id+'>'+data.datos[i].rol_usu_nom+'</option>';
+                                $("#rol").append(opcion);
+                            }
+                        })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if ( console && console.log ) {
+                    console.log( " La solicitud getlista ha fallado,  textStatus : " +  textStatus 
+                        + " \n errorThrown : "+ errorThrown
+                        + " \n textStatus : " + textStatus
+                        + " \n jqXHR.status : " + jqXHR.status );
+                }
+            });
+        }
+        
         //funcion levanta modal y muestra  los datos del centro de costo cuando presion boton Ver/Editar, aca se puede mdificar si quiere
-        function verusuarios(action, id){
+        function verusuarios(action, id){ 
             deshabilitabotones();
+            getlistarolusu();
             var datay = {"id": id, //Faltaba nombre asignado al id de codigo atencion en el controller
                          "Accion":"obtener"
                         };
@@ -275,6 +313,8 @@ function deshabilitabotones(){
                         + " \n jqXHR.status : " + jqXHR.status );
                 }
                 // cambio en nombre de campo codigo y nombre de input  de  obs
+                console.log(data.datos.usu_rol_id);
+                limpiaform();//limpio el formulario para que llene los datos con los valores correspondientes
                 $("#id").val(data.datos.usu_id);
 		        $("#username").val(data.datos.usu_username);
                 $("#pass").val(data.datos.usu_password);
