@@ -58,9 +58,11 @@ function deshabilitabotones(){
                     for(var i=0; i<data.datos.length;i++){
                                     $.each(data.datos[i], function(k, v) { console.log(k + ' : ' + v); });
                                     console.log('id: '+data.datos[i].motivoatencion_id + ' Motivo Atencion: '+data.datos[i].motivoatencion_texto+ ' Estado: '+data.datos[i].motivoatencion_estado);
+                                    var state = "";
+                                    state = data.datos[i].motivoatencion_estado == 0 ? "Inactivo":"Activo"; //Operador ternario reemplaza if else
 
                                     fila = '<tr><td>'+ data.datos[i].motivoatencion_texto +'</td>';
-                                    fila += '<td>'+ data.datos[i].motivoatencion_estado +'</td>';
+                                    fila += '<td>'+ state +'</td>';
                                     fila += '<td><button id="ver-motivoatt" type="button" '
                                     fila += 'class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal"'
                                     fila += ' onclick="vermotivoatt(\'ver\',\'' + data.datos[i].motivoatencion_id + '\')">';

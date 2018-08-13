@@ -58,9 +58,11 @@
                     for(var i=0; i<data.datos.length;i++){
                                     $.each(data.datos[i], function(k, v) { console.log(k + ' : ' + v); });
                                     console.log('id: '+data.datos[i].formaatencion_id + ' Forma Atencion: '+data.datos[i].formaatencion_texto+ ' Estado: '+data.datos[i].formaatencion_estado);
+                                    var state = "";
+                                    state = data.datos[i].formaatencion_estado == 0 ? "Inactivo":"Activo"; //Operador ternario reemplaza if else
 
                                     fila = '<tr><td>'+ data.datos[i].formaatencion_texto +'</td>';
-                                    fila += '<td>'+ data.datos[i].formaatencion_estado +'</td>';
+                                    fila += '<td>'+ state +'</td>';
                                     fila += '<td><button id="ver-formaatt" type="button" '
                                     fila += 'class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal"'
                                     fila += ' onclick="verformaatt(\'ver\',\'' + data.datos[i].formaatencion_id + '\')">';

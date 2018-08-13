@@ -48,6 +48,7 @@
                             <div class="form-group">
                               <label for="motivoattestado">Estado</label>
                                 <select class="form-control" name="motivoattestado" id="motivoattestado">
+                                    <option value="">- Selecciona un Estado -</option>
                                     <option value="1">Activo</option>
                                     <option value="0">No Activo</option>
                                 </select>

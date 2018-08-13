@@ -60,9 +60,11 @@
                 for(var i=0; i<data.datos.length;i++){
                                 console.log('id: '+data.datos[i].det_ate_id + ' texto: '+data.datos[i].det_ate_texto);
 
-                                fila = '<tr  class="listadetatencion"><td>'+ data.datos[i].det_ate_texto +'</td>';
-                                fila += '<td>'+ data.datos[i].det_ate_estado +'</td>';
+                                var state = "";
+                                    state = data.datos[i].det_ate_estado == 0 ? "Inactivo":"Activo"; //Operador ternario reemplaza if else
 
+                                fila = '<tr  class="listadetatencion"><td>'+ data.datos[i].det_ate_texto +'</td>';
+                                fila += '<td>'+ state +'</td>';
                                 fila += '<td><button id="ver-detatencion" type="button" '
                                 fila += 'class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal"'
                                 fila += ' onclick="verDetAtencion(\'ver\',\'' + data.datos[i].det_ate_id + '\')">';

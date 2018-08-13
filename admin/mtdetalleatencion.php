@@ -48,7 +48,11 @@
 						</div>
 						<div class="form-group">
 							<label for="detAteEst">Estado</label>
-							<input id="detAteEst" class="form-control" type="text" name="detAteEst" value="" title="Ingrese un estado" required />
+							<select class="form-control" name="detAteEst" id="detAteEst">
+                                <option value="">- Selecciona un Estado -</option>
+                                <option value="1">Activo</option>
+                                <option value="0">No Activo</option>    
+                            </select>
 						</div>
 					</div>
 					<div class="modal-footer">

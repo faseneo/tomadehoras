@@ -18,8 +18,8 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th width="50%">Nombre</th>
-									<th width="50%">Acciones</th>
+									<th width="80%">Nombre</th>
+									<th width="20%">Acciones</th>
 								</tr>
 							</thead>
 							<tbody id="listafacultad">
