@@ -50,6 +50,59 @@ function deshabilitabotones(){
         }
         return true;
     }
+//Datos de Validación para un segundo formulario
+    function deshabilitabotones2(){
+        document.getElementById('editar-persdae').style.display = 'none';
+        document.getElementById('guardar-persdae').style.display = 'none';
+        document.getElementById('actualizar-persdae').style.display = 'none';
+    }
+       function limpiaform2(){
+        $("#nombres").val("");
+        $("#apellidos").val("");
+        $("#correo").val("");
+        $("#anexo").val("");
+    }       
+       function habilitaform2(){
+        $("#nombres").prop( "disabled", false );
+        $("#apellidos").prop( "disabled", false );
+        $("#correo").prop( "disabled", false );
+        $("#anexo").prop( "disabled", false );
+    }
+    function deshabilitaform2(){
+        $("#nombres").prop( "disabled", true );
+        $("#apellidos").prop( "disabled", true );
+        $("#correo").prop( "disabled", true );
+        $("#estanexoado").prop( "disabled", true );
+    }
+    //funcion para validar campos del formulario
+    function validarFormulario2() {
+        var txtnombres = document.getElementById('nombres').value;
+        var txtapellidos = document.getElementById('apellidos').value;
+        var txtcorreo = document.getElementById('correo').value;
+        var txtanexo = document.getElementById('anexo').value;
+        /*Test campo obligatorio*/
+        if (txtnombres == null || txtnombres.length == 0) {
+            alert('ERROR: El campo "Nombres" no debe ir vacío o con espacios en blanco');
+            document.getElementById('nombres').focus();
+            return false;
+        }
+        if (txtapellidos == null || txtapellidos.length == 0) {
+            alert('ERROR: El campo "Apellidos" no debe ir vacío o con espacios en blanco');
+            document.getElementById('apellidos').focus();
+            return false;
+        }
+        if (txtcorreo == null || txtcorreo.length == 0) {
+            alert('ERROR: El campo "Correo" no debe ir vacío o con espacios en blanco');
+            document.getElementById('correo').focus();
+            return false;
+        }
+        if (txtanexo == null || txtanexo.length == 0) {
+            alert('ERROR: El campo "Anexo" no debe ir vacío o con espacios en blanco');
+            document.getElementById('anexo').focus();
+            return false;
+        }
+        return true;
+    }
         $(document).ready(function(){
             //funcion para listar los Códigos de Atención
             var getlista = function (){
@@ -80,7 +133,11 @@ function deshabilitabotones(){
                                     fila = '<tr><td>'+ data.datos[i].usu_username +'</td>';
                                     fila += '<td>'+ data.datos[i].usu_rol_nombre +'</td>';
                                     fila += '<td>'+ state +'</td>';
-                                    fila += '<td><button id="ver-usuarios" type="button" '
+                                    fila += '<td><button id="crea-persdae" type="button" '
+                                    fila += 'class="btn btn-xs btn-warning" data-toggle="modal" data-target="#myModal2"'
+                                    fila += ' onclick="verdatos(\'verdatos\',\'' + data.datos[i].usu_id + '\')">';
+                                    fila += 'Datos Personales</button>';
+                                    fila += ' <button id="ver-usuarios" type="button" '
                                     fila += 'class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal"'
                                     fila += ' onclick="verusuarios(\'ver\',\'' + data.datos[i].usu_id + '\')">';
                                     fila += 'Ver / Editar</button>';
@@ -101,6 +158,7 @@ function deshabilitabotones(){
                     }
                 });
             }
+        
             //Levanta modal nuevo Usuario
             $("#crea-usuarios").click(function(e){
                 e.preventDefault();
@@ -116,7 +174,7 @@ function deshabilitabotones(){
                     $('#username').focus();
                 });
             });
-            // implementacion boton para guardar la forma de Atención
+              // implementacion boton para guardar nuevo usuario
             $("#guardar-usuarios").click(function(e){
                 e.preventDefault();
                 if(validarFormulario()==true){
@@ -147,6 +205,48 @@ function deshabilitabotones(){
                         });
                         getlista();
                         deshabilitabotones();
+                    })
+                    .fail(function( jqXHR, textStatus, errorThrown ) {
+                        if ( console && console.log ) {
+                            console.log( " La solicitud ha fallado,  textStatus : " +  textStatus 
+                                + " \n errorThrown : "+ errorThrown
+                                + " \n textStatus : " + textStatus
+                                + " \n jqXHR.status : " + jqXHR.status );
+                        }
+                    });
+                }
+            });
+
+              // implementacion boton para guardar la forma de Atención
+            $("#guardar-persdae").click(function(e){
+                e.preventDefault();
+                if(validarFormulario2()==true){
+                    var datax = $("#formpersdae").serializeArray();
+                    /*$.each(datax, function(i, field){
+                        console.log("contenido del form = "+ field.name + ":" + field.value + " ");
+                    });*/
+                    $.ajax({
+                        data: datax, 
+                        type: "POST",
+                        dataType: "json", 
+                        url: "../controllers/controllerpersonasdae.php", 
+                    })
+                    .done(function( data, textStatus, jqXHR ) {
+                        if ( console && console.log ) {
+                            console.log( " data success : "+ data.success 
+                                + " \n data msg : "+ data.message 
+                                + " \n textStatus : " + textStatus
+                                + " \n jqXHR.status : " + jqXHR.status );
+                        }
+                        $('#myModal2').modal('hide');
+                        $('#myModalLittle').modal('show');
+                        $('#myModalLittle').on('shown.bs.modal', function () {
+                            var modal2 = $(this);
+                            modal2.find('.modal-title').text('Mensaje');
+                            modal2.find('.msg').text(data.message);  
+                            $('#cerrarModalLittle').focus();
+                        });
+                        deshabilitabotones2();
                     })
                     .fail(function( jqXHR, textStatus, errorThrown ) {
                         if ( console && console.log ) {
@@ -256,6 +356,90 @@ function deshabilitabotones(){
             deshabilitabotones();
             getlista();
         });
+        function verdatos(action, id){
+            deshabilitabotones2();
+            var datay = {"usu_id": id, //Faltaba nombre asignado al id de codigo atencion en el controller
+                         "Acciondae":"obtener"
+                        };
+            $.ajax({
+                data: datay, 
+                type: "POST",
+                dataType: "json", 
+                url: "../controllers/controllerpersonasdae.php",
+            })
+            .done(function(data,textStatus,jqXHR ) {
+                if ( console && console.log ) {
+                    console.log( " data success : "+ data.success 
+                        + " \n data msg : "+ data.message 
+                        + " \n textStatus : " + textStatus
+                        + " \n jqXHR.status : " + jqXHR.status );
+                }
+                console.log(data.datos);
+                console.log(data.datos.length);
+                if(data.datos.length>0){
+                    console.log("Hay elemtos");
+
+
+
+                }else{
+                    console.log("No Hay elementos");
+                    limpiaform2();
+                    $("#usu_id").val(id);
+                    $('#myModal2').on('shown.bs.modal', function () {
+                    var modal = $(this);
+                    /*if (action === 'actualizar'){
+                        modal.find('.modal-title-form').text('Actualizar Datos');
+                        $('#guardar-persdae').hide();                    
+                        $('#actualizar-persdae').show();   
+                    }else if (action === 'verdatos'){*/
+                        modal.find('.modal-title-form').text('Agregar Datos Personales');
+                        deshabilitabotones2();
+                        $('#guardar-persdae').show();   
+                    //}
+
+                    });
+
+                }
+
+
+
+
+                // cambio en nombre de campo codigo y nombre de input  de  obs
+                
+               /* limpiaform2();//limpio el formulario para que llene los datos con los valores correspondientes
+                $("#iddae").val(data.datos.usu_id);
+                $("#nombres").val(data.datos.usu_username);
+                $("#apellidos").val(data.datos.usu_password);
+                $("#correo").val(data.datos.usu_rol_id);
+                $("#anexo").val(data.datos.usu_estado);
+
+                deshabilitaform();
+                $("#Acciondae").val(action);
+
+                $('#myModal2').on('shown.bs.modal', function () {
+                    var modal = $(this);
+                    if (action === 'actualizar'){
+                        modal.find('.modal-title-form').text('Actualizar Datos');
+                        $('#guardar-persdae').hide();                    
+                        $('#actualizar-persdae').show();   
+                    }else if (action === 'verdatos'){
+                        modal.find('.modal-title-form').text('Datos Usuarios');
+                        deshabilitabotones();
+                        $('#editar-persdae').show();   
+                    }
+
+                });*/
+            })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if ( console && console.log ) {
+                    console.log( " La solicitud ha fallado,  textStatus : " +  textStatus 
+                        + " \n errorThrown : "+ errorThrown
+                        + " \n textStatus : " + textStatus
+                        + " \n jqXHR.status : " + jqXHR.status );
+                }
+            });
+
+        }
         //permite listar los roles de usuario en el combo box
         var getlistarolusu = function (){
             var datax = {
@@ -295,7 +479,7 @@ function deshabilitabotones(){
         //funcion levanta modal y muestra  los datos del centro de costo cuando presion boton Ver/Editar, aca se puede mdificar si quiere
         function verusuarios(action, id){ 
             deshabilitabotones();
-            getlistarolusu();
+            //getlistarolusu();
             var datay = {"id": id, //Faltaba nombre asignado al id de codigo atencion en el controller
                          "Accion":"obtener"
                         };
@@ -303,7 +487,7 @@ function deshabilitabotones(){
                 data: datay, 
                 type: "POST",
                 dataType: "json", 
-                url: "../controllers/controllerusuarios.php",
+                url: "../controllers/controllerpersonasdae.php",
             })
             .done(function(data,textStatus,jqXHR ) {
                 if ( console && console.log ) {
