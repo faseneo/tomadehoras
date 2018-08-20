@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-08-2018 a las 16:39:12
--- Versión del servidor: 10.1.31-MariaDB
--- Versión de PHP: 7.2.4
+-- Tiempo de generación: 20-08-2018 a las 16:53:11
+-- Versión del servidor: 10.1.32-MariaDB
+-- Versión de PHP: 7.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -198,6 +198,17 @@ CREATE TABLE `becas_externas` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `becas_internas`
+--
+
+CREATE TABLE `becas_internas` (
+  `becas_internas_id` int(11) NOT NULL,
+  `becas_internas_nombre` varchar(80) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `becas_periodo`
 --
 
@@ -226,6 +237,19 @@ CREATE TABLE `bloque_atencion` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `bloque_atencion_tiene_dae`
+--
+
+CREATE TABLE `bloque_atencion_tiene_dae` (
+  `blo_ate_tiene_dae_id` int(11) NOT NULL,
+  `blo_ate_tiene_dae_persona_dae_id` int(11) NOT NULL,
+  `blo_ate_tiene_dae_bloque_atencion_id` int(11) NOT NULL,
+  `blo_ate_tiene_dae_estado` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `carreras`
 --
 
@@ -235,6 +259,14 @@ CREATE TABLE `carreras` (
   `carrera_nombre` varchar(150) NOT NULL,
   `carrera_facultad_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `carreras`
+--
+
+INSERT INTO `carreras` (`carrera_id`, `carrera_codigo`, `carrera_nombre`, `carrera_facultad_id`) VALUES
+(1, '2024', 'LICENCIATURA EN EDUCACION MATEMATICA Y PEDAGOGIA EN MATEMATICA', 3),
+(2, '2091', 'LICENCIATURA EN EDUCACION CON MENCION EN FRANCES Y PEDAGOGIA EN FRANCES', 1);
 
 -- --------------------------------------------------------
 
@@ -264,11 +296,7 @@ CREATE TABLE `codigo_atencion` (
 --
 
 INSERT INTO `codigo_atencion` (`codigo_atencion_id`, `codigo_atencion_codigo`, `codigo_atencion_observacion`) VALUES
-(1, '#1', 'Fallecimiento del Padre'),
-(2, '#2', 'Fallecimiento Madre'),
-(6, '6', 'día del niño'),
-(7, '7', 'día de ñuñoa'),
-(8, '09', 'ñiño día');
+(1, '$$$', 'Prueba de día Lunes');
 
 -- --------------------------------------------------------
 
@@ -304,6 +332,14 @@ CREATE TABLE `detalle_atencion` (
   `detalle_atencion_texto` varchar(100) DEFAULT NULL,
   `detalle_atencion_estado` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `detalle_atencion`
+--
+
+INSERT INTO `detalle_atencion` (`detalle_atencion_id`, `detalle_atencion_texto`, `detalle_atencion_estado`) VALUES
+(1, 'CrÃ©dito', 1),
+(2, 'Asistente social', 1);
 
 -- --------------------------------------------------------
 
@@ -364,6 +400,16 @@ CREATE TABLE `facultad` (
   `facultad_nombre` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `facultad`
+--
+
+INSERT INTO `facultad` (`facultad_id`, `facultad_nombre`) VALUES
+(1, 'Facultad de Historia y Geografia'),
+(2, 'Facultad de Artes y EducaciÃ³n FÃ­sica'),
+(3, 'Facultad de Ciencias BÃ¡sicas'),
+(4, 'Facultad de FilosofÃ­a y EducaciÃ³n');
+
 -- --------------------------------------------------------
 
 --
@@ -375,6 +421,13 @@ CREATE TABLE `forma_atencion` (
   `forma_atencion_texto` varchar(15) DEFAULT NULL COMMENT 'presencial, correo, telefono',
   `forma_atencion_estado` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `forma_atencion`
+--
+
+INSERT INTO `forma_atencion` (`forma_atencion_id`, `forma_atencion_texto`, `forma_atencion_estado`) VALUES
+(0, 'Presencial', 0);
 
 -- --------------------------------------------------------
 
@@ -490,6 +543,13 @@ CREATE TABLE `motivo_atencion` (
   `motivo_atencion_estado` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `motivo_atencion`
+--
+
+INSERT INTO `motivo_atencion` (`motivo_atencion_id`, `motivo_atencion_texto`, `motivo_atencion_estado`) VALUES
+(1, 'Crédito', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -553,6 +613,13 @@ CREATE TABLE `personas_dae` (
   `personas_dae_anexo` varchar(5) DEFAULT NULL,
   `personas_dae_usuarios_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `personas_dae`
+--
+
+INSERT INTO `personas_dae` (`personas_dae_id`, `personas_dae_nombres`, `personas_dae_apellidos`, `personas_dae_correo`, `personas_dae_anexo`, `personas_dae_usuarios_id`) VALUES
+(1, 'Luis Alfonso ', 'GarcÃ­a Manzo', 'luis.garcia@umce.cl', '9069', 1);
 
 -- --------------------------------------------------------
 
@@ -663,6 +730,15 @@ CREATE TABLE `rol_usuario` (
   `rol_nombre` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `rol_usuario`
+--
+
+INSERT INTO `rol_usuario` (`rol_id`, `rol_nombre`) VALUES
+(1, 'Administrador'),
+(2, 'Asistente'),
+(3, 'Secretaria');
+
 -- --------------------------------------------------------
 
 --
@@ -687,6 +763,34 @@ CREATE TABLE `tipo_archivo` (
   `tipo_archivo_texto` varchar(100) DEFAULT NULL,
   `tipo_archivo_prefijo` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `usuarios_id` int(11) NOT NULL,
+  `usuarios_username` varchar(100) NOT NULL,
+  `usuarios_password` varchar(50) NOT NULL,
+  `usuarios_activo` tinyint(4) NOT NULL,
+  `usuarios_token_seguridad` varchar(255) DEFAULT NULL,
+  `usuarios_rol_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`usuarios_id`, `usuarios_username`, `usuarios_password`, `usuarios_activo`, `usuarios_token_seguridad`, `usuarios_rol_id`) VALUES
+(1, 'lgarcia', '7ca3995ca262d405b973c838a2b4e487', 1, NULL, 1),
+(2, 'calvarez', 'a4ebb0cb39195035bdd025e7d20a90dc', 0, NULL, 2),
+(4, 'agarcia', '6e024e89638db03836d13d352497daa9', 1, NULL, 1),
+(5, 'bbarahona', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL, 2),
+(6, 'amanzo', '6deb4a7017bc6d5f24c0d8ee16a876dc', 1, NULL, 2),
+(7, 'jromero', 'dc3f44fcc1f2b475bf18ee6d6c2c4d5c', 1, NULL, 2),
+(8, 'ppiÃ±ones', '1f5ed3ea2d9391ac913b33d0fec5af95', 1, NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -783,6 +887,12 @@ ALTER TABLE `becas_externas`
   ADD PRIMARY KEY (`becas_externas_id`);
 
 --
+-- Indices de la tabla `becas_internas`
+--
+ALTER TABLE `becas_internas`
+  ADD PRIMARY KEY (`becas_internas_id`);
+
+--
 -- Indices de la tabla `becas_periodo`
 --
 ALTER TABLE `becas_periodo`
@@ -795,6 +905,14 @@ ALTER TABLE `becas_periodo`
 ALTER TABLE `bloque_atencion`
   ADD PRIMARY KEY (`bloque_atencion_id`),
   ADD KEY `fk_dia_bloque_dia_atencion1_idx` (`bloque_atencion_dia_atencion_id`);
+
+--
+-- Indices de la tabla `bloque_atencion_tiene_dae`
+--
+ALTER TABLE `bloque_atencion_tiene_dae`
+  ADD PRIMARY KEY (`blo_ate_tiene_dae_id`),
+  ADD KEY `fk_bloque_atencion_has_usuarios_usuarios1_idx` (`blo_ate_tiene_dae_persona_dae_id`),
+  ADD KEY `fk_bloque_atencion_has_usuarios_bloque_atencion2_idx` (`blo_ate_tiene_dae_bloque_atencion_id`);
 
 --
 -- Indices de la tabla `carreras`
@@ -1033,6 +1151,14 @@ ALTER TABLE `tipo_archivo`
   ADD PRIMARY KEY (`tipo_archivo_id`);
 
 --
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`usuarios_id`),
+  ADD UNIQUE KEY `usuarios_username_UNIQUE` (`usuarios_username`),
+  ADD KEY `fk_usuarios_rol_usuario1_idx` (`usuarios_rol_id`);
+
+--
 -- Indices de la tabla `vivienda`
 --
 ALTER TABLE `vivienda`
@@ -1088,7 +1214,7 @@ ALTER TABLE `bloque_atencion`
 -- AUTO_INCREMENT de la tabla `carreras`
 --
 ALTER TABLE `carreras`
-  MODIFY `carrera_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `carrera_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria_academica`
@@ -1100,7 +1226,7 @@ ALTER TABLE `categoria_academica`
 -- AUTO_INCREMENT de la tabla `codigo_atencion`
 --
 ALTER TABLE `codigo_atencion`
-  MODIFY `codigo_atencion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `codigo_atencion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `comuna`
@@ -1118,7 +1244,7 @@ ALTER TABLE `descripcion_situacion_academica`
 -- AUTO_INCREMENT de la tabla `detalle_atencion`
 --
 ALTER TABLE `detalle_atencion`
-  MODIFY `detalle_atencion_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `detalle_atencion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `dia_atencion`
@@ -1148,7 +1274,7 @@ ALTER TABLE `estudios`
 -- AUTO_INCREMENT de la tabla `facultad`
 --
 ALTER TABLE `facultad`
-  MODIFY `facultad_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `facultad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `fuas`
@@ -1184,7 +1310,7 @@ ALTER TABLE `modulo_origen`
 -- AUTO_INCREMENT de la tabla `motivo_atencion`
 --
 ALTER TABLE `motivo_atencion`
-  MODIFY `motivo_atencion_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `motivo_atencion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `nuevo_campo`
@@ -1208,7 +1334,7 @@ ALTER TABLE `parentesco`
 -- AUTO_INCREMENT de la tabla `personas_dae`
 --
 ALTER TABLE `personas_dae`
-  MODIFY `personas_dae_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `personas_dae_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `personas_relacionadas`
@@ -1244,13 +1370,19 @@ ALTER TABLE `reserva_atencion`
 -- AUTO_INCREMENT de la tabla `rol_usuario`
 --
 ALTER TABLE `rol_usuario`
-  MODIFY `rol_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `rol_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `semana`
 --
 ALTER TABLE `semana`
   MODIFY `semana_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `usuarios_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `vivienda`
@@ -1328,6 +1460,13 @@ ALTER TABLE `becas_periodo`
 --
 ALTER TABLE `bloque_atencion`
   ADD CONSTRAINT `fk_dia_bloque_dia_atencion1` FOREIGN KEY (`bloque_atencion_dia_atencion_id`) REFERENCES `dia_atencion` (`dia_atencion_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `bloque_atencion_tiene_dae`
+--
+ALTER TABLE `bloque_atencion_tiene_dae`
+  ADD CONSTRAINT `fk_bloque_atencion_has_usuarios_bloque_atencion2` FOREIGN KEY (`blo_ate_tiene_dae_bloque_atencion_id`) REFERENCES `bloque_atencion` (`bloque_atencion_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_bloque_atencion_has_usuarios_usuarios1` FOREIGN KEY (`blo_ate_tiene_dae_persona_dae_id`) REFERENCES `personas_dae` (`personas_dae_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `carreras`
@@ -1419,6 +1558,12 @@ ALTER TABLE `persona_dae_tiene_carreras`
 --
 ALTER TABLE `reserva_atencion`
   ADD CONSTRAINT `fk_reserva_atencion_bloque_atencion_tiene_usuarios1` FOREIGN KEY (`reserva_atencion_blo_ate_tiene_usu_id`) REFERENCES `bloque_atencion_tiene_dae` (`blo_ate_tiene_dae_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `fk_usuarios_rol_usuario1` FOREIGN KEY (`usuarios_rol_id`) REFERENCES `rol_usuario` (`rol_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
