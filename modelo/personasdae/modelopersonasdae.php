@@ -63,11 +63,11 @@ class ModelPersonasDae {
     public function Obtener($id){
         $jsonresponse = array();
         try{
-            $consulta = "SELECT COUNT(*) FROM personas_dae";
+            $consulta = "SELECT COUNT(*) FROM personas_dae WHERE personas_dae_id=".$id;
             $res = $this->pdo->query($consulta);
             if ($res->fetchColumn() == 0) {
                 $jsonresponse['success'] = true;
-                $jsonresponse['message'] = 'Usuarios sin elementos';                
+                $jsonresponse['message'] = 'Usuario sin datos';                
                 $jsonresponse['datos'] = [];
             }else{
             $stm = $this->pdo->prepare("SELECT *
@@ -86,7 +86,7 @@ class ModelPersonasDae {
                     $result = $busq->returnArray();
 
                 $jsonresponse['success'] = true;
-                $jsonresponse['message'] = 'Se obtuvo el Usuario correctamente';
+                $jsonresponse['message'] = 'Se obtuvo datos del Usuario correctamente';
                 $jsonresponse['datos'] = $result;
                 $stm=null;
             }

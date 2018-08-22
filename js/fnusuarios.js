@@ -376,9 +376,13 @@ function deshabilitabotones(){
                 }
                 console.log(data.datos);
                 console.log(data.datos.length);
-                if(data.datos.length>0){
+                if(data.success){
                     console.log("Hay elemtos");
-
+                    $("#iddae").val(data.datos.persdae_id);
+                    $("#nombres").val(data.datos.persdae_nombres);
+                    $("#apellidos").val(data.datos.persdae_apellidos);
+                    $("#correo").val(data.datos.persdae_correo);
+                    $("#anexo").val(data.datos.persdae_anexo);
 
 
                 }else{
