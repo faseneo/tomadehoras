@@ -53,20 +53,14 @@
                           <div class="form-group">
                               <label for="rol">Rol</label>
                                 <select class="form-control" name="rol" id="rol">
-                                    <!-- <option value="">- Selecciona un Rol -</option>
-                                    <option value="2">Asistente</option>
-                                    <option value="1">Administrador</option> -->
                                 </select>
-                              <!-- <input type="text" class="form-control" id="formaattestado" name="formaattestado" placeholder="Estado"> -->
                           </div>
                             <div class="form-group">
                               <label for="estado">Estado</label>
                                 <select class="form-control" name="estado" id="estado">
-                                    <option value="">- Selecciona un Estado -</option>
-                                    <option value="1">Activo</option>
                                     <option value="0">No Activo</option>
+                                    <option value="1" selected>Activo</option>  
                                 </select>
-                              <!-- <input type="text" class="form-control" id="formaattestado" name="formaattestado" placeholder="Estado"> -->
                           </div>
                         </div>
                         <div class="modal-footer">

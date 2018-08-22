@@ -63,20 +63,17 @@ class ModelUsuarios {
     public function Obtener($id){
         $jsonresponse = array();
         try{
-            $consulta = "SELECT COUNT(*) FROM usuarios";
+            $consulta = "SELECT COUNT(*) FROM usuarios where usuarios_id=".$id;
             $res = $this->pdo->query($consulta);
             if ($res->fetchColumn() == 0) {
                 $jsonresponse['success'] = true;
-                $jsonresponse['message'] = 'Usuarios sin elementos';                
+                $jsonresponse['message'] = 'Usuario no existe';                
                 $jsonresponse['datos'] = [];
             }else{
-            $stm = $this->pdo->prepare("SELECT user.usuarios_id,
-                                               user.usuarios_username,
-                                               user.usuarios_password,
-                                               user.usuarios_activo,
-                                               user.usuarios_rol_id
-                                        FROM usuarios as user
-                                        WHERE user.usuarios_id = ? ");
+            $stm = $this->pdo->prepare("SELECT 
+                                                *
+                                        FROM usuarios as user,rol_usuario as ru
+                                        WHERE ru.rol_id = user.usuarios_rol_id AND user.usuarios_id = ? ");
                 $stm->execute(array($id));
                 //quito el for para no crear arreglo de un resultado
                 $r = $stm->fetch(PDO::FETCH_OBJ);
@@ -86,6 +83,8 @@ class ModelUsuarios {
                             $busq->__SET('usu_password',  $r->usuarios_password);
                             $busq->__SET('usu_estado',    $r->usuarios_activo);
                             $busq->__SET('usu_rol_id',    $r->usuarios_rol_id);
+                            $busq->__SET('usu_rol_nombre',$r->rol_nombre);
+
                     $result = $busq->returnArray();
 
                 $jsonresponse['success'] = true;

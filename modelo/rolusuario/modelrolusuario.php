@@ -45,19 +45,29 @@ class ModelRolUsuario {
     public function Obtener($id){
         $jsonresponse = array();
         try{
-            $stm = $this->pdo
-                       ->prepare("SELECT ru.rol_id,
-                                         ru.rol_nombre
-                                FROM rol_usuario as ru
-                                WHERE ru.rol_id = ?");
-            $stm->execute(array($id));
-            $r = $stm->fetch(PDO::FETCH_OBJ);
-            $busq = new RolUsuario();
-                    $busq->__SET('rol_usu_id', $r->rol_id);
-                    $busq->__SET('rol_usu_nom', $r->rol_nombre);
-            $jsonresponse['success'] = true;
-            $jsonresponse['message'] = 'Se obtuvo Rol Usuario correctamente';
-            $jsonresponse['datos'] = $busq->returnArray();
+            $consulta = "SELECT COUNT(*) FROM usuarios where usuarios_id=".$id;
+            $res = $this->pdo->query($consulta);
+            if ($res->fetchColumn() == 0) {
+                $jsonresponse['success'] = true;
+                $jsonresponse['message'] = 'Este rol no existe';                
+                $jsonresponse['datos'] = [];
+            }else{
+                    $stm = $this->pdo
+                               ->prepare("SELECT ru.rol_id,
+                                                 ru.rol_nombre
+                                        FROM rol_usuario as ru
+                                        WHERE ru.rol_id = ?");
+                    $stm->execute(array($id));
+                    $r = $stm->fetch(PDO::FETCH_OBJ);
+                    $busq = new RolUsuario();
+                            $busq->__SET('rol_usu_id', $r->rol_id);
+                            $busq->__SET('rol_usu_nom', $r->rol_nombre);
+                    $jsonresponse['success'] = true;
+                    $jsonresponse['message'] = 'Se obtuvo Rol Usuario correctamente';
+                    $jsonresponse['datos'] = $busq->returnArray();
+                }
+            $res=null;
+            return $jsonresponse;
         } catch (Exception $e){
             $jsonresponse['success'] = false;
             $jsonresponse['message'] = 'Error al obtener Rol Usuario';             

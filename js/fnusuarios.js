@@ -6,8 +6,8 @@ function deshabilitabotones(){
        function limpiaform(){
         $("#username").val("");
         $("#pass").val("");
-        $("#rol").val("");
-        $("#estado").val("");
+        //$("#rol").val("");
+        //$("#estado").val("");
     }       
        function habilitaform(){
         $("#username").prop( "disabled", false );
@@ -38,12 +38,12 @@ function deshabilitabotones(){
             document.getElementById('pass').focus();
             return false;
         }
-        if (selrol == null || selrol == 0) {
+        if (selrol == null || selrol == 0 || isNaN(selrol)) {
             alert('ERROR: Seleccione un Rol');
             document.getElementById('rol').focus();
             return false;
         }
-        if (selestado == null || selestado == "") {
+        if (selestado == null || isNaN(selestado) || (selestado >= 0 && selestado <= 1)) {
             alert('ERROR: Seleccione un Estado');
             document.getElementById('estado').focus();
             return false;
@@ -466,10 +466,13 @@ function deshabilitabotones(){
                         + " \n textStatus : " + textStatus
                         + " \n jqXHR.status : " + jqXHR.status );
                 }
-                $("#rol").append('<option value="">- Selecciona un Rol -</option>');
+                //$("#rol").append('<option value="0">- Selecciona un Rol -</option>');
                 for(var i=0; i<data.datos.length;i++){
                                 console.log('id: '+data.datos[i].rol_usu_id + ' nombre: '+data.datos[i].rol_usu_nom);
-                                opcion = '<option value = '+data.datos[i].rol_usu_id+'>'+data.datos[i].rol_usu_nom+'</option>';
+                                opcion = '<option value = ';
+                                opcion += data.datos[i].rol_usu_id;
+                                opcion += data.datos[i].rol_usu_id == 2 ? ' selected':'';
+                                opcion += '>'+data.datos[i].rol_usu_nom+'</option>';
                                 $("#rol").append(opcion);
                             }
                         })
@@ -486,7 +489,7 @@ function deshabilitabotones(){
         //funcion levanta modal y muestra  los datos del centro de costo cuando presion boton Ver/Editar, aca se puede mdificar si quiere
         function verusuarios(action, id){ 
             deshabilitabotones();
-            //getlistarolusu();
+            getlistarolusu();
             var datay = {"id": id, //Faltaba nombre asignado al id de codigo atencion en el controller
                          "Accion":"obtener"
                         };
@@ -494,7 +497,7 @@ function deshabilitabotones(){
                 data: datay, 
                 type: "POST",
                 dataType: "json", 
-                url: "../controllers/controllerpersonasdae.php",
+                url: "../controllers/controllerusuarios.php",
             })
             .done(function(data,textStatus,jqXHR ) {
                 if ( console && console.log ) {

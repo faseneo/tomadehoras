@@ -4,6 +4,7 @@ header('Content-type: application/json; charset=utf-8');
 ini_set('display_errors', '1');*/
 require_once '../modelo/usuarios/entidadusuarios.php';
 require_once '../modelo/usuarios/modelousuarios.php';
+
 // Logica
 $usuarios = new Usuarios();
 $modelusuarios = new ModelUsuarios();
@@ -23,12 +24,20 @@ if(isset($_REQUEST['Accion'])){
             break;
 
             case 'registrar':
+
+
             $usuarios->__SET('usu_username',  $_REQUEST['username']);
             $usuarios->__SET('usu_password',  $_REQUEST['pass']);
             $usuarios->__SET('usu_estado',    $_REQUEST['estado']);
             $usuarios->__SET('usu_rol_id',    $_REQUEST['rol']);
-            $jsondata = $modelusuarios->Registrar($usuarios);
-            echo json_encode($jsondata);
+            if (validaform()){
+                $jsondata = $modelusuarios->Registrar($usuarios);
+                echo json_encode($jsondata);
+            }else{
+                $jsonresponse['success'] = true;
+                $jsonresponse['message'] = 'Se obtuvo el Usuario correctamente';
+                $jsonresponse['datos'] = [];
+            }
             break;
 
             case 'eliminar':
@@ -46,6 +55,14 @@ if(isset($_REQUEST['Accion'])){
             echo json_encode($jsondata);
             break;            
         }
+    }
+    function validaform($usuarios){
+        require_once '../modelo/rolusuario/modelrolusuario.php';
+        $modelRolUsu = new ModelRolUsuario();
+        $jsondata = $modelRolUsu->Obtener($usuarios->__GET('usu_rol_id'));
+        
+        return false;
+
     }
 
     ?>
