@@ -374,10 +374,13 @@ function deshabilitabotones(){
                         + " \n textStatus : " + textStatus
                         + " \n jqXHR.status : " + jqXHR.status );
                 }
-                console.log(data.datos);
-                console.log(data.datos.length);
-                if(data.success){
+                console.log('datos : ' + data.datos);
+                console.log('largo : ' + data.datos.length);
+                if(data.datos.length != 0){
                     console.log("Hay elemtos");
+                    deshabilitabotones2();
+                    $('#editar-persdae').show();
+                    
                     $("#iddae").val(data.datos.persdae_id);
                     $("#nombres").val(data.datos.persdae_nombres);
                     $("#apellidos").val(data.datos.persdae_apellidos);
