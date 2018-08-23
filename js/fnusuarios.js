@@ -24,9 +24,13 @@ function deshabilitabotones(){
     //funcion para validar campos del formulario
     function validarFormulario() {
         var txtusername = document.getElementById('username').value;
+        console.log(txtusername);
         var txtpass = document.getElementById('pass').value;
+        console.log(txtpass);
         var selrol = document.getElementById('rol').selectedIndex;
+        console.log(selrol);
         var selestado = document.getElementById('estado').selectedIndex;
+        console.log(selestado);
         /*Test campo obligatorio*/
         if (txtusername == null || txtusername.length == 0) {
             alert('ERROR: El campo "Nombre de Usuario" no debe ir vacío o con espacios en blanco');
@@ -270,11 +274,15 @@ function deshabilitabotones(){
             //  envia los nuevos datos para actualizar
             $("#actualizar-usuarios").click(function(e){
                 e.preventDefault();
-                    if(validarFormulario()==true){
-                        var datax = $("#formusuarios").serializeArray();
+                var datax = $("#formusuarios").serializeArray();
                         $.each(datax, function(i, field){
                          console.log("contenido del form = "+ field.name + ":" + field.value + " ");
                         });
+                    if(validarFormulario()==true){
+                        /*var datax = $("#formusuarios").serializeArray();
+                        $.each(datax, function(i, field){
+                         console.log("contenido del form = "+ field.name + ":" + field.value + " ");
+                        });*/
                            $.ajax({
                                    data: datax,    // En data se puede utilizar un objeto JSON, un array o un query string
                                    type: "POST",   //Cambiar a type: POST si necesario
