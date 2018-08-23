@@ -1,15 +1,15 @@
-function deshabilitabotones(){
+    function deshabilitabotones(){
         document.getElementById('editar-usuarios').style.display = 'none';
         document.getElementById('guardar-usuarios').style.display = 'none';
         document.getElementById('actualizar-usuarios').style.display = 'none';
     }
-       function limpiaform(){
+    function limpiaform(){
         $("#username").val("");
         $("#pass").val("");
         //$("#rol").val("");
         //$("#estado").val("");
     }       
-       function habilitaform(){
+    function habilitaform(){
         $("#username").prop( "disabled", false );
         $("#pass").prop( "disabled", false );
         $("#rol").prop( "disabled", false );
@@ -24,9 +24,7 @@ function deshabilitabotones(){
     //funcion para validar campos del formulario
     function validarFormulario() {
         var txtusername = document.getElementById('username').value;
-        console.log(txtusername);
         var txtpass = document.getElementById('pass').value;
-        console.log(txtpass);
         var selrol = document.getElementById('rol').selectedIndex;
         console.log(selrol);
         var selestado = document.getElementById('estado').selectedIndex;
@@ -42,31 +40,31 @@ function deshabilitabotones(){
             document.getElementById('pass').focus();
             return false;
         }
-        if (selrol == null || selrol == 0 || isNaN(selrol)) {
+        if (selrol == null || selrol == -1 || isNaN(selrol)) {
             alert('ERROR: Seleccione un Rol');
             document.getElementById('rol').focus();
             return false;
         }
-        if (selestado == null || isNaN(selestado) || (selestado >= 0 && selestado <= 1)) {
+        if (selestado == null || isNaN(selestado) || (selestado < 0 && selestado > 1)) {
             alert('ERROR: Seleccione un Estado');
             document.getElementById('estado').focus();
             return false;
         }
         return true;
     }
-//Datos de Validación para un segundo formulario
+    //Datos de Validación para un segundo formulario
     function deshabilitabotones2(){
         document.getElementById('editar-persdae').style.display = 'none';
         document.getElementById('guardar-persdae').style.display = 'none';
         document.getElementById('actualizar-persdae').style.display = 'none';
     }
-       function limpiaform2(){
+    function limpiaform2(){
         $("#nombres").val("");
         $("#apellidos").val("");
         $("#correo").val("");
         $("#anexo").val("");
     }       
-       function habilitaform2(){
+    function habilitaform2(){
         $("#nombres").prop( "disabled", false );
         $("#apellidos").prop( "disabled", false );
         $("#correo").prop( "disabled", false );
@@ -107,6 +105,45 @@ function deshabilitabotones(){
         }
         return true;
     }
+        //permite listar los roles de usuario en el combo box
+    function getlistarolusu(){
+            var datax = {
+                "Accion":"listar"
+            }
+            $.ajax({
+                data: datax, 
+                type: "GET",
+                dataType: "json", 
+                url: "../controllers/controllersrolusuario.php", 
+            })
+            .done(function( data, textStatus, jqXHR ) {
+                $("#rol").html("");
+                if ( console && console.log ) {
+                    console.log( " data success : "+ data.success 
+                        + " \n data msg : "+ data.message 
+                        + " \n textStatus : " + textStatus
+                        + " \n jqXHR.status : " + jqXHR.status );
+                }
+                //$("#rol").append('<option value="0">- Selecciona un Rol -</option>');
+                for(var i=0; i<data.datos.length;i++){
+                                console.log('id: '+data.datos[i].rol_usu_id + ' nombre: '+data.datos[i].rol_usu_nom);
+                                opcion = '<option value = ';
+                                opcion += data.datos[i].rol_usu_id;
+                                opcion += data.datos[i].rol_usu_id == 2 ? ' selected':'';
+                                opcion += '>'+data.datos[i].rol_usu_nom+'</option>';
+                                $("#rol").append(opcion);
+                            }
+                        })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if ( console && console.log ) {
+                    console.log( " La solicitud getlista ha fallado,  textStatus : " +  textStatus 
+                        + " \n errorThrown : "+ errorThrown
+                        + " \n textStatus : " + textStatus
+                        + " \n jqXHR.status : " + jqXHR.status );
+                }
+            });
+    }
+    getlistarolusu();
         $(document).ready(function(){
             //funcion para listar los Códigos de Atención
             var getlista = function (){
@@ -128,8 +165,8 @@ function deshabilitabotones(){
                             + " \n jqXHR.status : " + jqXHR.status );
                     }
                     for(var i=0; i<data.datos.length;i++){
-                                    $.each(data.datos[i], function(k, v) { console.log(k + ' : ' + v); });
-                                    console.log('Username: '+data.datos[i].usu_username + ' Password: '+data.datos[i].usu_password+ ' Estado: '+data.datos[i].usu_estado+ ' Rol: '+data.datos[i].usu_rol_nombre);
+                                    /*$.each(data.datos[i], function(k, v) { console.log(k + ' : ' + v); });
+                                    console.log('Username: '+data.datos[i].usu_username + ' Password: '+data.datos[i].usu_password+ ' Estado: '+data.datos[i].usu_estado+ ' Rol: '+data.datos[i].usu_rol_nombre);*/
 
                                     var state = "";
                                     state = data.datos[i].usu_estado == 0 ? "Inactivo":"Activo"; //Operador ternario reemplaza if else
@@ -455,49 +492,12 @@ function deshabilitabotones(){
             });
 
         }
-        //permite listar los roles de usuario en el combo box
-        var getlistarolusu = function (){
-            var datax = {
-                "Accion":"listar"
-            }
-            $.ajax({
-                data: datax, 
-                type: "GET",
-                dataType: "json", 
-                url: "../controllers/controllersrolusuario.php", 
-            })
-            .done(function( data, textStatus, jqXHR ) {
-                $("#rol").html("");
-                if ( console && console.log ) {
-                    console.log( " data success : "+ data.success 
-                        + " \n data msg : "+ data.message 
-                        + " \n textStatus : " + textStatus
-                        + " \n jqXHR.status : " + jqXHR.status );
-                }
-                //$("#rol").append('<option value="0">- Selecciona un Rol -</option>');
-                for(var i=0; i<data.datos.length;i++){
-                                console.log('id: '+data.datos[i].rol_usu_id + ' nombre: '+data.datos[i].rol_usu_nom);
-                                opcion = '<option value = ';
-                                opcion += data.datos[i].rol_usu_id;
-                                opcion += data.datos[i].rol_usu_id == 2 ? ' selected':'';
-                                opcion += '>'+data.datos[i].rol_usu_nom+'</option>';
-                                $("#rol").append(opcion);
-                            }
-                        })
-            .fail(function( jqXHR, textStatus, errorThrown ) {
-                if ( console && console.log ) {
-                    console.log( " La solicitud getlista ha fallado,  textStatus : " +  textStatus 
-                        + " \n errorThrown : "+ errorThrown
-                        + " \n textStatus : " + textStatus
-                        + " \n jqXHR.status : " + jqXHR.status );
-                }
-            });
-        }
-        
         //funcion levanta modal y muestra  los datos del centro de costo cuando presion boton Ver/Editar, aca se puede mdificar si quiere
         function verusuarios(action, id){ 
-            deshabilitabotones();
+            limpiaform();//limpio el formulario para que llene los datos con los valores correspondientes
             getlistarolusu();
+
+            //deshabilitabotones();
             var datay = {"id": id, //Faltaba nombre asignado al id de codigo atencion en el controller
                          "Accion":"obtener"
                         };
@@ -515,13 +515,12 @@ function deshabilitabotones(){
                         + " \n jqXHR.status : " + jqXHR.status );
                 }
                 // cambio en nombre de campo codigo y nombre de input  de  obs
-                console.log(data.datos.usu_rol_id);
-                limpiaform();//limpio el formulario para que llene los datos con los valores correspondientes
                 $("#id").val(data.datos.usu_id);
 		        $("#username").val(data.datos.usu_username);
                 $("#pass").val(data.datos.usu_password);
-                $("#rol").val(data.datos.usu_rol_id);
-		        $("#estado").val(data.datos.usu_estado);
+                console.log('rol del usuario : ' + data.datos.usu_rol_id);
+                $("#rol").val(data.datos.usu_rol_id).prop('selected',true);
+		        $("#estado").val(data.datos.usu_estado).prop('selected',true);
 
                 deshabilitaform();
                 $("#Accion").val(action);
@@ -559,4 +558,4 @@ function deshabilitabotones(){
             $('#myModalDelete').on('shown.bs.modal', function () {
                 $('#myInput').focus()
             });
-    } 
+        } 
