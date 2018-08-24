@@ -120,7 +120,7 @@ class ModelPersonasDae {
     public function Registrar(PersonasDae $data){
         $jsonresponse = array();
         try{
- 
+            var_dump($usu_id);
             $stm = $this->pdo->prepare("INSERT INTO personas_dae (personas_dae_nombres, personas_dae_apellidos, personas_dae_correo, personas_dae_anexo, personas_dae_usuarios_id ) VALUES (?,?,?,?,?)");
             $stm->execute(array($data->__GET("persdae_nombres"),
                                 $data->__GET("persdae_apellidos"),
@@ -141,20 +141,20 @@ class ModelPersonasDae {
         return $jsonresponse;
     }
 
-    public function Actualizar(Usuarios $data){
+    public function Actualizar(PersonasDae $data){
         $jsonresponse = array();
         try{
             //var_dump($data); con esto veo los datos que me llegan
-           $sql = "UPDATE usuarios SET  usuarios_username = ?, usuarios_password = md5(?), usuarios_activo = ?, usuarios_rol_id = ? WHERE  usuarios_id = ?";
+           $sql = "UPDATE personas_dae SET  personas_dae_nombres = ?, personas_dae_apellidos = ?, personas_dae_correo = ?, personas_dae_anexo = ? WHERE  personas_dae_id = ?";
             $this->pdo->prepare($sql)
-                 ->execute(array($data->__GET('usu_username'), 
-                                 $data->__GET('usu_password'),
-                                 $data->__GET('usu_estado'),
-                                 $data->__GET('usu_rol_id'),
-                                 $data->__GET('usu_id'))
+                 ->execute(array($data->__GET('persdae_nombres'), 
+                                 $data->__GET('persdae_apellidos'),
+                                 $data->__GET('persdae_correo'),
+                                 $data->__GET('persdae_anexo'),
+                                 $data->__GET('persdae_id_usu'))
                           );
             $jsonresponse['success'] = true;
-            $jsonresponse['message'] = 'Usuario actualizado correctamente';                 
+            $jsonresponse['message'] = 'Persona dae actualizado correctamente';                 
         } catch (Exception $e){
             //die($e->getMessage());
             $jsonresponse['success'] = false;

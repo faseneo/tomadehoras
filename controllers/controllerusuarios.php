@@ -30,13 +30,14 @@ if(isset($_REQUEST['Accion'])){
             $usuarios->__SET('usu_password',  $_REQUEST['pass']);
             $usuarios->__SET('usu_estado',    $_REQUEST['estado']);
             $usuarios->__SET('usu_rol_id',    $_REQUEST['rol']);
-            if (validaform()){
+            if (validaform($usuarios)){
                 $jsondata = $modelusuarios->Registrar($usuarios);
                 echo json_encode($jsondata);
             }else{
-                $jsonresponse['success'] = true;
-                $jsonresponse['message'] = 'Se obtuvo el Usuario correctamente';
+                $jsonresponse['valida'] = false;
+                $jsonresponse['message'] = 'No se pudo registrar Usuario, Rol invalido';
                 $jsonresponse['datos'] = [];
+                echo json_encode($jsonresponse);    
             }
             break;
 
@@ -57,12 +58,16 @@ if(isset($_REQUEST['Accion'])){
         }
     }
     function validaform($usuarios){
+        require_once '../modelo/rolusuario/entidadrolusuario.php';
         require_once '../modelo/rolusuario/modelrolusuario.php';
         $modelRolUsu = new ModelRolUsuario();
         $jsondata = $modelRolUsu->Obtener($usuarios->__GET('usu_rol_id'));
-        
-        return false;
-
+        //var_dump(empty($jsondata['datos']));
+        if(empty($jsondata['datos'])){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     ?>

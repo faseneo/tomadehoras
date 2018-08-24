@@ -45,15 +45,14 @@ class ModelRolUsuario {
     public function Obtener($id){
         $jsonresponse = array();
         try{
-            $consulta = "SELECT COUNT(*) FROM usuarios where usuarios_id=".$id;
+            $consulta = "SELECT COUNT(*) FROM rol_usuario where rol_id=".$id;
             $res = $this->pdo->query($consulta);
             if ($res->fetchColumn() == 0) {
                 $jsonresponse['success'] = true;
                 $jsonresponse['message'] = 'Este rol no existe';                
                 $jsonresponse['datos'] = [];
             }else{
-                    $stm = $this->pdo
-                               ->prepare("SELECT ru.rol_id,
+                    $stm = $this->pdo->prepare("SELECT ru.rol_id,
                                                  ru.rol_nombre
                                         FROM rol_usuario as ru
                                         WHERE ru.rol_id = ?");

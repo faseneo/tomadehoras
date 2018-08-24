@@ -13,11 +13,11 @@ if(isset($_REQUEST['Acciondae'])){
     switch($_REQUEST['Acciondae']){
 
         case 'actualizar':
-            $persdae->__SET('usu_username',  $_REQUEST['username']);
-            $persdae->__SET('usu_password',  $_REQUEST['pass']);
-            $persdae->__SET('usu_estado',    $_REQUEST['estado']);
-            $persdae->__SET('usu_rol_id',    $_REQUEST['rol']);
-            $persdae->__SET('usu_id',        $_REQUEST['id']);
+            $persdae->__SET('persdae_nombres',  $_REQUEST['nombres']);
+            $persdae->__SET('persdae_apellidos',  $_REQUEST['apellidos']);
+            $persdae->__SET('persdae_correo',    $_REQUEST['correo']);
+            $persdae->__SET('persdae_anexo',    $_REQUEST['anexo']);
+            $persdae->__SET('persdae_id_usu',    $_REQUEST['usu_id']);
             $jsondata = $modelpersdae->Actualizar($persdae);
             echo json_encode($jsondata);
             break;

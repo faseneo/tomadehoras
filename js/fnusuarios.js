@@ -54,11 +54,14 @@
     }
     //Datos de Validación para un segundo formulario
     function deshabilitabotones2(){
+        console.log("pase por aca");
         document.getElementById('editar-persdae').style.display = 'none';
         document.getElementById('guardar-persdae').style.display = 'none';
         document.getElementById('actualizar-persdae').style.display = 'none';
     }
     function limpiaform2(){
+        $("#iddae").val("");
+        //$("#usu_id").val("");
         $("#nombres").val("");
         $("#apellidos").val("");
         $("#correo").val("");
@@ -74,7 +77,7 @@
         $("#nombres").prop( "disabled", true );
         $("#apellidos").prop( "disabled", true );
         $("#correo").prop( "disabled", true );
-        $("#estanexoado").prop( "disabled", true );
+        $("#anexo").prop( "disabled", true );
     }
     //funcion para validar campos del formulario
     function validarFormulario2() {
@@ -236,9 +239,13 @@
                                 + " \n textStatus : " + textStatus
                                 + " \n jqXHR.status : " + jqXHR.status );
                         }
+                        /*if(data.valida){
+
+                        }*/
                         $('#myModal').modal('hide');
                         $('#myModalLittle').modal('show');
                         $('#myModalLittle').on('shown.bs.modal', function () {
+                             modal2.find('.msg').text(""); 
                             var modal2 = $(this);
                             modal2.find('.modal-title').text('Mensaje');
                             modal2.find('.msg').text(data.message);  
@@ -246,48 +253,6 @@
                         });
                         getlista();
                         deshabilitabotones();
-                    })
-                    .fail(function( jqXHR, textStatus, errorThrown ) {
-                        if ( console && console.log ) {
-                            console.log( " La solicitud ha fallado,  textStatus : " +  textStatus 
-                                + " \n errorThrown : "+ errorThrown
-                                + " \n textStatus : " + textStatus
-                                + " \n jqXHR.status : " + jqXHR.status );
-                        }
-                    });
-                }
-            });
-
-              // implementacion boton para guardar la forma de Atención
-            $("#guardar-persdae").click(function(e){
-                e.preventDefault();
-                if(validarFormulario2()==true){
-                    var datax = $("#formpersdae").serializeArray();
-                    /*$.each(datax, function(i, field){
-                        console.log("contenido del form = "+ field.name + ":" + field.value + " ");
-                    });*/
-                    $.ajax({
-                        data: datax, 
-                        type: "POST",
-                        dataType: "json", 
-                        url: "../controllers/controllerpersonasdae.php", 
-                    })
-                    .done(function( data, textStatus, jqXHR ) {
-                        if ( console && console.log ) {
-                            console.log( " data success : "+ data.success 
-                                + " \n data msg : "+ data.message 
-                                + " \n textStatus : " + textStatus
-                                + " \n jqXHR.status : " + jqXHR.status );
-                        }
-                        $('#myModal2').modal('hide');
-                        $('#myModalLittle').modal('show');
-                        $('#myModalLittle').on('shown.bs.modal', function () {
-                            var modal2 = $(this);
-                            modal2.find('.modal-title').text('Mensaje');
-                            modal2.find('.msg').text(data.message);  
-                            $('#cerrarModalLittle').focus();
-                        });
-                        deshabilitabotones2();
                     })
                     .fail(function( jqXHR, textStatus, errorThrown ) {
                         if ( console && console.log ) {
@@ -398,11 +363,106 @@
                             }
                         });
                     });
+            
+             // implementacion boton para guardar la forma de Atención
+            $("#guardar-persdae").click(function(e){
+                e.preventDefault();
+                if(validarFormulario2()==true){
+                    var datax = $("#formpersdae").serializeArray();
+                    $.each(datax, function(i, field){
+                        console.log("contenido del form = "+ field.name + ":" + field.value + " ");
+                    });
+                    $.ajax({
+                        data: datax, 
+                        type: "POST",
+                        dataType: "json", 
+                        url: "../controllers/controllerpersonasdae.php", 
+                    })
+                    .done(function( data, textStatus, jqXHR ) {
+                        if ( console && console.log ) {
+                            console.log( " data success : "+ data.success 
+                                + " \n data msg : "+ data.message 
+                                + " \n textStatus : " + textStatus
+                                + " \n jqXHR.status : " + jqXHR.status );
+                        }
+                        $('#myModal2').modal('hide');
+                        $('#myModalLittle').modal('show');
+                        $('#myModalLittle').on('shown.bs.modal', function () {
+                            var modal2 = $(this);
+                            modal2.find('.modal-title').text('Mensaje');
+                            modal2.find('.msg').text(data.message);  
+                            $('#cerrarModalLittle').focus();
+                        });
+                        deshabilitabotones2();
+                    })
+                    .fail(function( jqXHR, textStatus, errorThrown ) {
+                        if ( console && console.log ) {
+                            console.log( " La solicitud ha fallado,  textStatus : " +  textStatus 
+                                + " \n errorThrown : "+ errorThrown
+                                + " \n textStatus : " + textStatus
+                                + " \n jqXHR.status : " + jqXHR.status );
+                        }
+                    });
+                }
+            });
+
+            $("#editar-persdae").click(function(e){
+                e.preventDefault();
+                $('.modal-title-form').text('Editar Usuarios');
+                habilitaform2();
+                deshabilitabotones2();
+                $('#actualizar-persdae').show();
+                $("#Acciondae").val("actualizar");              
+            });
+            $("#actualizar-persdae").click(function(e){
+                e.preventDefault();
+                var datax = $("#formpersdae").serializeArray();
+                        $.each(datax, function(i, field){
+                         console.log("contenido del form = "+ field.name + ":" + field.value + " ");
+                        });
+                    if(validarFormulario2()==true){
+                        /*var datax = $("#formusuarios").serializeArray();
+                        $.each(datax, function(i, field){
+                         console.log("contenido del form = "+ field.name + ":" + field.value + " ");
+                        });*/
+                           $.ajax({
+                                   data: datax,    // En data se puede utilizar un objeto JSON, un array o un query string
+                                   type: "POST",   //Cambiar a type: POST si necesario
+                                   dataType: "json",  // Formato de datos que se espera en la respuesta
+                                   url: "../controllers/controllerpersonasdae.php",  // URL a la que se enviará la solicitud Ajax
+                            })
+                            .done(function( data, textStatus, jqXHR ) {
+                                if ( console && console.log ) {
+                                    console.log( " data success : "+ data.success 
+                                    + " \n data msg : "+ data.message 
+                                    + " \n textStatus : " + textStatus
+                                    + " \n jqXHR.status : " + jqXHR.status );
+                                }
+                                   $('#myModal2').modal('hide');
+                                   $('#myModalLittle').modal('show');
+                                   $('#myModalLittle').on('shown.bs.modal', function () {
+                                        var modal2 = $(this);
+                                        modal2.find('.modal-title').text('Mensaje');
+                                        modal2.find('.msg').text(data.message);
+                                        $('#cerrarModalLittle').focus();                                
+                                    });
+                                    //getlista();
+                                    //deshabilitabotones();
+                                })
+                                .fail(function( jqXHR, textStatus, errorThrown ) {
+                                    if ( console && console.log ) {
+                                        console.log( " La solicitud ha fallado,  textStatus : " +  textStatus 
+                                            + " \n errorThrown : "+ errorThrown
+                                            + " \n textStatus : " + textStatus
+                                            + " \n jqXHR.status : " + jqXHR.status );
+                                    }
+                                });                        
+                            }
+                        });
             deshabilitabotones();
             getlista();
         });
         function verdatos(action, id){
-            deshabilitabotones2();
             var datay = {"usu_id": id, //Faltaba nombre asignado al id de codigo atencion en el controller
                          "Acciondae":"obtener"
                         };
@@ -419,68 +479,31 @@
                         + " \n textStatus : " + textStatus
                         + " \n jqXHR.status : " + jqXHR.status );
                 }
-                console.log('datos : ' + data.datos);
-                console.log('largo : ' + data.datos.length);
+                //console.log('datos : ' + data.datos);
+                //console.log('largo : ' + data.datos.length);
                 if(data.datos.length != 0){
                     console.log("Hay elemtos");
                     deshabilitabotones2();
                     $('#editar-persdae').show();
-                    
+                    limpiaform2();
+                    deshabilitaform2();
+
+                    $("#usu_id").val(id);
                     $("#iddae").val(data.datos.persdae_id);
                     $("#nombres").val(data.datos.persdae_nombres);
                     $("#apellidos").val(data.datos.persdae_apellidos);
                     $("#correo").val(data.datos.persdae_correo);
                     $("#anexo").val(data.datos.persdae_anexo);
 
-
                 }else{
                     console.log("No Hay elementos");
                     limpiaform2();
+                    habilitaform2();
+                    deshabilitabotones2();
+                    $('#guardar-persdae').show();
                     $("#usu_id").val(id);
-                    $('#myModal2').on('shown.bs.modal', function () {
-                    var modal = $(this);
-                    /*if (action === 'actualizar'){
-                        modal.find('.modal-title-form').text('Actualizar Datos');
-                        $('#guardar-persdae').hide();                    
-                        $('#actualizar-persdae').show();   
-                    }else if (action === 'verdatos'){*/
-                        modal.find('.modal-title-form').text('Agregar Datos Personales');
-                        deshabilitabotones2();
-                        $('#guardar-persdae').show();   
-                    //}
-
-                    });
-
                 }
 
-
-
-
-                // cambio en nombre de campo codigo y nombre de input  de  obs
-                
-               /* limpiaform2();//limpio el formulario para que llene los datos con los valores correspondientes
-                $("#iddae").val(data.datos.usu_id);
-                $("#nombres").val(data.datos.usu_username);
-                $("#apellidos").val(data.datos.usu_password);
-                $("#correo").val(data.datos.usu_rol_id);
-                $("#anexo").val(data.datos.usu_estado);
-
-                deshabilitaform();
-                $("#Acciondae").val(action);
-
-                $('#myModal2').on('shown.bs.modal', function () {
-                    var modal = $(this);
-                    if (action === 'actualizar'){
-                        modal.find('.modal-title-form').text('Actualizar Datos');
-                        $('#guardar-persdae').hide();                    
-                        $('#actualizar-persdae').show();   
-                    }else if (action === 'verdatos'){
-                        modal.find('.modal-title-form').text('Datos Usuarios');
-                        deshabilitabotones();
-                        $('#editar-persdae').show();   
-                    }
-
-                });*/
             })
             .fail(function( jqXHR, textStatus, errorThrown ) {
                 if ( console && console.log ) {
