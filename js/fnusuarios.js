@@ -393,6 +393,7 @@
                             modal2.find('.msg').text(data.message);  
                             $('#cerrarModalLittle').focus();
                         });
+                        getlista();
                         deshabilitabotones2();
                     })
                     .fail(function( jqXHR, textStatus, errorThrown ) {

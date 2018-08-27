@@ -106,15 +106,28 @@ class ModelUsuarios {
         $jsonresponse = array();
         try{
             //var_dump($usu_id); //con esto veo los datos que me llegan
-            $stm = $this->pdo->prepare("DELETE FROM usuarios WHERE usuarios_id = ? ");
-                    
-                    $stm->execute(array($usu_id));
+            $consulta = "SELECT COUNT(*) FROM personas_dae where personas_dae_usuarios_id=".$usu_id;
+            $res = $this->pdo->query($consulta);
+
             
-            $jsonresponse['success'] = true;
-            $jsonresponse['message'] = 'Usuario eliminado correctamente';              
+
+            if ($res->fetchColumn() != 0) {
+                require_once("../modelo/personasdae/modelopersonasdae.php");
+                $pd = new ModelPersonasDae();
+                $var = $pd->Eliminar($usu_id);
+                if($var['success'])
+                $jsonresponse['message'] = 'Usuario y datos personales eliminados correctamente';
+            }
+            
+            $stm = $this->pdo->prepare("DELETE FROM usuarios WHERE usuarios_id = ? ");
+                $stm->execute(array($usu_id));
+                $jsonresponse['success'] = true;
+                $jsonresponse['message'] = 'Usuario eliminado correctamente';
+
         } catch (Exception $e){
+            die($e->getMessage());
             $jsonresponse['success'] = false;
-            $jsonresponse['message'] = 'Error al eliminar el Usuario';            
+            $jsonresponse['message'] = 'Error al eliminar el Usuario1';            
         }
         return $jsonresponse;
     }

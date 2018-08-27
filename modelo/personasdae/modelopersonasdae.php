@@ -63,7 +63,7 @@ class ModelPersonasDae {
     public function Obtener($id){
         $jsonresponse = array();
         try{
-            $consulta = "SELECT COUNT(*) FROM personas_dae WHERE personas_dae_id=".$id;
+            $consulta = "SELECT COUNT(*) FROM personas_dae WHERE personas_dae_usuarios_id=".$id;
             $res = $this->pdo->query($consulta);
             if ($res->fetchColumn() == 0) {
                 $jsonresponse['success'] = true;
@@ -104,7 +104,7 @@ class ModelPersonasDae {
         $jsonresponse = array();
         try{
             //var_dump($usu_id); //con esto veo los datos que me llegan
-            $stm = $this->pdo->prepare("DELETE FROM usuarios WHERE usuarios_id = ? ");
+            $stm = $this->pdo->prepare("DELETE FROM personas_dae WHERE personas_dae_usuarios_id = ? ");
                     
                     $stm->execute(array($usu_id));
             
@@ -112,7 +112,7 @@ class ModelPersonasDae {
             $jsonresponse['message'] = 'Usuario eliminado correctamente';              
         } catch (Exception $e){
             $jsonresponse['success'] = false;
-            $jsonresponse['message'] = 'Error al eliminar el Usuario';            
+            $jsonresponse['message'] = 'Error al eliminar el Usuario2';            
         }
         return $jsonresponse;
     }
@@ -120,7 +120,7 @@ class ModelPersonasDae {
     public function Registrar(PersonasDae $data){
         $jsonresponse = array();
         try{
-            var_dump($usu_id);
+            //var_dump($usu_id);
             $stm = $this->pdo->prepare("INSERT INTO personas_dae (personas_dae_nombres, personas_dae_apellidos, personas_dae_correo, personas_dae_anexo, personas_dae_usuarios_id ) VALUES (?,?,?,?,?)");
             $stm->execute(array($data->__GET("persdae_nombres"),
                                 $data->__GET("persdae_apellidos"),
@@ -145,7 +145,7 @@ class ModelPersonasDae {
         $jsonresponse = array();
         try{
             //var_dump($data); con esto veo los datos que me llegan
-           $sql = "UPDATE personas_dae SET  personas_dae_nombres = ?, personas_dae_apellidos = ?, personas_dae_correo = ?, personas_dae_anexo = ? WHERE  personas_dae_id = ?";
+           $sql = "UPDATE personas_dae SET  personas_dae_nombres = ?, personas_dae_apellidos = ?, personas_dae_correo = ?, personas_dae_anexo = ? WHERE  personas_dae_usuarios_id = ?";
             $this->pdo->prepare($sql)
                  ->execute(array($data->__GET('persdae_nombres'), 
                                  $data->__GET('persdae_apellidos'),

@@ -24,8 +24,6 @@ if(isset($_REQUEST['Accion'])){
             break;
 
             case 'registrar':
-
-
             $usuarios->__SET('usu_username',  $_REQUEST['username']);
             $usuarios->__SET('usu_password',  $_REQUEST['pass']);
             $usuarios->__SET('usu_estado',    $_REQUEST['estado']);
