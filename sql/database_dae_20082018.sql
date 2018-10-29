@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-10-2018 a las 20:37:36
--- Versión del servidor: 10.1.30-MariaDB
--- Versión de PHP: 5.6.33
+-- Tiempo de generación: 20-08-2018 a las 16:53:11
+-- Versión del servidor: 10.1.32-MariaDB
+-- Versión de PHP: 7.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -784,13 +784,13 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`usuarios_id`, `usuarios_username`, `usuarios_password`, `usuarios_activo`, `usuarios_token_seguridad`, `usuarios_rol_id`) VALUES
-(1, 'lgarcia', 'e2b23dafc9ca8ff2451e1b297803248e', 1, NULL, 1),
-(2, 'calvarez', '82c2b9d88058a57f6c2d9c40e43ec01f', 0, NULL, 2),
+(1, 'lgarcia', '7ca3995ca262d405b973c838a2b4e487', 1, NULL, 1),
+(2, 'calvarez', 'a4ebb0cb39195035bdd025e7d20a90dc', 0, NULL, 2),
 (4, 'agarcia', '6e024e89638db03836d13d352497daa9', 1, NULL, 1),
 (5, 'bbarahona', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL, 2),
 (6, 'amanzo', '6deb4a7017bc6d5f24c0d8ee16a876dc', 1, NULL, 2),
 (7, 'jromero', 'dc3f44fcc1f2b475bf18ee6d6c2c4d5c', 1, NULL, 2),
-(8, 'ppiÃ±ones', '9d189d168a4249a863c95bdfe2180b16', 1, NULL, 3);
+(8, 'ppiÃ±ones', '1f5ed3ea2d9391ac913b33d0fec5af95', 1, NULL, 3);
 
 -- --------------------------------------------------------
 

@@ -57,7 +57,7 @@
             <div class="panel-body"><a href="agendarhora.php">Alumno</a></div>
             <div class="panel-body"><a href="vistaasistente.php">Asistente Social</a></div>
             <div class="panel-body"><a href="agendadiaria.php">Secretaria</a></div>
-            <div class="panel-body"><a href="#.php">Administrador</a></div>
+            <div class="panel-body"><a href="admin/index.php">Administrador</a></div>
           </div>
         </div>
       </div>
