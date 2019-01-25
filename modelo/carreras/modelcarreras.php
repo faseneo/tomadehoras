@@ -52,7 +52,7 @@ class ModelCarreras {
             $result = array();
             $stm = $this->pdo->prepare("SELECT DISTINCT * FROM carreras as ca
                                         WHERE NOT EXISTS (SELECT * FROM asigna_carreras as ac
-                                        WHERE ac.asigna_carreras_carrera_id = ca.carrera_id)");
+                                        WHERE ac.asigna_carreras_carrera_id = ca.carrera_id and ac.asigna_carreras_estado=1)");
             $stm->execute();
             foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
                 $busq = new Carreras();

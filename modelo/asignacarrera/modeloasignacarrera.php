@@ -67,7 +67,8 @@ class ModelAsignaCarrera {
             $result = array();
             $stm = $this->pdo->prepare("SELECT  *
                                         FROM asigna_carreras AS ac, carreras as ca
-                                        WHERE ca.carrera_id = ac.asigna_carreras_carrera_id AND ac.asigna_carreras_personas_dae_id = ? ORDER BY ca.carrera_codigo");
+                                        WHERE ca.carrera_id = ac.asigna_carreras_carrera_id AND ac.asigna_carreras_personas_dae_id = ?
+                                        and asigna_carreras_estado=1 ORDER BY ca.carrera_codigo");
             $stm->execute(array($user_id));
             foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
                      $fila = array('carr_id'=>$r->carrera_id,
@@ -147,6 +148,7 @@ class ModelAsignaCarrera {
         try{
  
             $stm = $this->pdo->prepare("INSERT INTO codigo_atencion (codigo_atencion_codigo, codigo_atencion_observacion) VALUES (?,?)");
+
             $stm->execute(array($data->__GET("codatencion_codigo"),
                                 utf8_decode($data->__GET("codatencion_obs"))));
 
@@ -162,16 +164,43 @@ class ModelAsignaCarrera {
         return $jsonresponse;
     }
 
+    public function GuardarAsignacion($usuid,$idcarreras){
+        $uid=(int)$usuid;
+        
+        $carreras = explode(',', $idcarreras);
+        $consultaexiste = "SELECT COUNT(*) FROM asigna_carreras WHERE asigna_carreras_personas_dae_id = $uid";
+        $res = $this->pdo->query($consultaexiste);
+
+         if ($res->fetchColumn() == 0) {
+               
+            }else{
+                $eliminacarr = "UPDATE asigna_carreras set asigna_carreras_estado=0 WHERE asigna_carreras_personas_dae_id = $uid";
+                $exec = $this->pdo->query($eliminacarr);
+               
+        }
+        foreach ($carreras as $key => $value) {
+            $stm = $this->pdo->prepare("INSERT INTO asigna_carreras (asigna_carreras_personas_dae_id, asigna_carreras_carrera_id,asigna_carreras_estado) VALUES (?,?,?)");
+
+            $stm->execute(array($uid,
+                                $value,
+                                1
+                                ));
+
+        }
+       $jsonresponse['success'] = true;
+       $jsonresponse['message'] = 'Codigo de Atencion ingresado correctamente'; 
+    }
+
     public function Actualizar(CodigoAtencion $data){
         $jsonresponse = array();
         try{
 
            $sql = "UPDATE codigo_atencion SET  codigo_atencion_codigo = ?, codigo_atencion_observacion = ? WHERE  codigo_atencion_id = ?";
-            $this->pdo->prepare($sql)
-                 ->execute(array($data->__GET('codatencion_codigo'), 
-                                 utf8_decode($data->__GET('codatencion_obs')),
-                                 $data->__GET('codatencion_id'))// agrego codigo_atencion_id faltante
-                          );
+
+            $this->pdo->prepare($sql)->execute(array($data->__GET('codatencion_codigo'), 
+                                                     utf8_decode($data->__GET('codatencion_obs')),
+                                                     $data->__GET('codatencion_id'))// agrego codigo_atencion_id faltante
+                                                );
             $jsonresponse['success'] = true;
             $jsonresponse['message'] = 'Código de Atención actualizado correctamente';                 
         } catch (Exception $e){

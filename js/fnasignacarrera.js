@@ -1,4 +1,6 @@
+var primerusuid;
 function obtenerasignados( persona_dae_id){
+
             var datax = {
                 "Accion":"listar_asignados",
                 "persona_dae_id": persona_dae_id
@@ -95,8 +97,10 @@ var getlistaasistentes = function (){
                                 //fila = '<li id="'+data.datos[i].carr_id+'">'+data.datos[i].carr_cod+'</li>';
                                 fila = '<option value="'+data.datos[i].usu_dae_id+'">'+data.datos[i].usu_username+'</option>';
                                 $("#asistentes").append(fila);
-                            }
-                        })
+                }
+                primerusuid=data.datos[0].usu_dae_id;
+                obtenerasignados(primerusuid);
+            })
             .fail(function( jqXHR, textStatus, errorThrown ) {
                 if ( console && console.log ) {
                     console.log( " La solicitud getlista ha fallado,  textStatus : " +  textStatus 
@@ -110,7 +114,6 @@ var getlistaasistentes = function (){
 $(document).ready(function() {
     getlistacarreras();
     getlistaasistentes();
-    obtenerasignados(4);
 
     $('#asistentes').change(function(){
         var idusu = $('#asistentes').val();
@@ -119,18 +122,35 @@ $(document).ready(function() {
 
 
    $("#guardar-asignacion").click(function(e){
-                    var carrerasDisponibles = $("#sourceFields");
-                    //var carrerasAsignadas = $("#destinationFields");
-                    var chooser = $("#fieldChooser").fieldChooser(carrerasDisponibles, carerrasAsignadas);
-                    e.preventDefault();
-                        var datax = $("#destinationFields").serializeArray();
+        e.preventDefault();
+        var asignados ="";
+        var idsignados="";
+        var carrerasDisponibles = $("#sourceFields");
+                 
+            $("#destinationFields div").each(function (i) {
+            // Se agrega a la variable asignados el valor del atributo id y se le agrega una coma al final
+            // para separar cada asignados
+                asignados += $(this).attr('id')+",";
+                idsignados += $(this).text()+",";
+            });
+            asignados= asignados.slice(0,-1);
+            idsignados= idsignados.slice(0,-1);
+            console.log(" OD : id asignados : "+asignados);
+            console.log(" OD : nombres asignados : "+idsignados);
+            var idusu = $('#asistentes').val();
+            var datax = {
+                "Accion":"guardarasignacion",
+                "idusu":idusu,
+                "idcarreras":asignados
+            }
+                        /*var datax = $("#destinationFields").serializeArray();
                         $.each(datax, function(i, field){
 
                             //console.log("contenido de los div = "+ field.name + ":" + field.value + " ");
                             console.log(chooser);
-                        });
+                        });*/
 
-                        /*$.ajax({
+                        $.ajax({
                             data: datax, 
                             type: "POST",
                             dataType: "json", 
@@ -154,8 +174,8 @@ $(document).ready(function() {
                                     + " \n textStatus : " + textStatus
                                     + " \n jqXHR.status : " + jqXHR.status );
                             }
-                        });*/
+                        });
                    
-                });
+    });
 
 });

@@ -28,6 +28,12 @@ if(isset($_REQUEST['Accion'])){
             $jsondata = $modelasignacar->Registrar($asignacar);
             echo json_encode($jsondata);
             break;
+            
+            case 'guardarasignacion':
+
+            $jsondata = $modelasignacar->GuardarAsignacion($_REQUEST['idusu'],$_REQUEST['idcarreras']);
+            echo json_encode($jsondata);
+            break;
 
             case 'eliminar':
             $jsondata = $modelasignacar->Eliminar($_REQUEST['asignacarid']);//Faltaba nombre asignado al id de codigo atencion
