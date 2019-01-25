@@ -13,7 +13,7 @@ if(isset($_REQUEST['Accion'])){
 
     switch($_REQUEST['Accion']){
 
-        case 'actualizar':
+            case 'actualizar':
             $usuarios->__SET('usu_username',  $_REQUEST['username']);
             $usuarios->__SET('usu_password',  $_REQUEST['pass']);
             $usuarios->__SET('usu_estado',    $_REQUEST['estado']);
@@ -52,7 +52,12 @@ if(isset($_REQUEST['Accion'])){
             case 'listar':
             $jsondata = $modelusuarios->Listar();
             echo json_encode($jsondata);
-            break;            
+            break;
+
+            case 'listar_asistentes':
+            $jsondata = $modelusuarios->Listar_asistentes();
+            echo json_encode($jsondata);
+            break;              
         }
     }
     function validaform($usuarios){

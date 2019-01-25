@@ -22,7 +22,7 @@ class ModelCarreras {
             $result = array();
             $stm = $this->pdo->prepare("SELECT  *
                                         FROM carreras as ca, facultad as fa 
-                                        WHERE ca.carrera_facultad_id= fa.facultad_id ");
+                                        WHERE ca.carrera_facultad_id= fa.facultad_id ORDER BY ca.carrera_codigo");
             $stm->execute();
             foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
                 $busq = new Carreras();
@@ -45,7 +45,36 @@ class ModelCarreras {
             $jsonresponse['message'] = 'Error al listar las Carreras';
         }
     }
+//SELECT * FROM carreras as ca inner JOIN asigna_carreras AS ac ON ca.carrera_id <> ac.asigna_carreras_carrera_id 
+    public function Listar_car_disp(){
+        $jsonresponse = array();
+        try{
+            $result = array();
+            $stm = $this->pdo->prepare("SELECT DISTINCT * FROM carreras as ca
+                                        WHERE NOT EXISTS (SELECT * FROM asigna_carreras as ac
+                                        WHERE ac.asigna_carreras_carrera_id = ca.carrera_id)");
+            $stm->execute();
+            foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
+                $busq = new Carreras();
+                    $busq->__SET('carr_id', $r->carrera_id);
+                    $busq->__SET('carr_cod', $r->carrera_codigo);
+                    $busq->__SET('carr_nom', $r->carrera_nombre);
+                    $busq->__SET('carr_facul_id', $r->carrera_facultad_id);
 
+                $result[] = $busq->returnArray();
+            }
+            $jsonresponse['success'] = true;
+            $jsonresponse['message'] = 'listado correctamente';
+            $jsonresponse['datos'] = $result;
+            return $jsonresponse;
+        }
+        catch(Exception $e){
+            //die($e->getMessage());
+            $jsonresponse['success'] = false;
+            $jsonresponse['message'] = 'Error al listar las Carreras';
+        }
+    }
+    
     public function Obtener($id){
         $jsonresponse = array();
         try{

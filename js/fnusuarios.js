@@ -583,3 +583,6 @@
                 $('#myInput').focus()
             });
         } 
+        $('#myModalLittle').on('hidden', function() {
+            $(this).removeData('modal');
+            });

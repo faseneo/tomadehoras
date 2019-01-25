@@ -24,6 +24,12 @@
 						<li><a href="mtrolusuarios.php">Rol Usuarios</a></li>
 					</ul>
 				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Administración<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="admasignacarreras.php">Asigna Carreras Asis.</a></li>
+					</ul>
+				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<!-- <li><a href="#"><span class="glyphicon glyphicon-user"></span>Registrarse</a></li> -->

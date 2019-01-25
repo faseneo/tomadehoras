@@ -60,6 +60,53 @@ class ModelUsuarios {
         return $jsonresponse;
     }
 
+    public function Listar_asistentes(){
+        $jsonresponse = array();
+        try{
+            $consulta = "SELECT COUNT(*) FROM usuarios";
+            $res = $this->pdo->query($consulta);
+            if ($res->fetchColumn() == 0) {
+                $jsonresponse['success'] = true;
+                $jsonresponse['message'] = 'Usuarios sin elementos';                
+                $jsonresponse['datos'] = [];
+            }else{
+                $result = array();
+                $stm = $this->pdo->prepare("SELECT personas_dae_id, usuarios_username
+                                            FROM usuarios as u,personas_dae as pd 
+                                            where u.usuarios_id=personas_dae_usuarios_id AND usuarios_rol_id = 2 ");
+                $stm->execute();
+                foreach($stm->fetchAll(PDO::FETCH_OBJ) as $r){
+                    /*$busq = new Usuarios();
+                        $busq->__SET('usu_id',          $r->usuarios_id);
+                        $busq->__SET('usu_username',    $r->usuarios_username);
+                        $busq->__SET('usu_password',    $r->usuarios_password);
+                        $busq->__SET('usu_rol_id',      $r->usuarios_rol_id);
+                        $busq->__SET('usu_rol_nombre',  $r->rol_nombre);
+                        $busq->__SET('usu_estado',      $r->usuarios_activo);
+
+                    $result[] = $busq->returnArray();*/
+
+                    $fila = array('usu_dae_id'=>$r->personas_dae_id,
+                                    'usu_username'=>$r->usuarios_username);
+                $result[]=$fila;
+                }
+                $jsonresponse['success'] = true;
+                $jsonresponse['message'] = 'Usuarios listados correctamente';
+                $jsonresponse['datos'] = $result;
+                $stm=null;
+            }
+            $res=null;
+        }
+        catch(Exception $e){
+            //die($e->getMessage());
+            $jsonresponse['success'] = false;
+            $jsonresponse['message'] = 'Error al listar los Usuarios';
+            $jsonresponse['datos'] = null;
+        }
+        $this->pdo=null;
+        return $jsonresponse;
+    }
+
     public function Obtener($id){
         $jsonresponse = array();
         try{

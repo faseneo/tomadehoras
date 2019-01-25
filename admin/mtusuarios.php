@@ -98,7 +98,7 @@
                           </div>
                           <div class="form-group">
                               <label for="correo">Correo</label>
-                              <input type="text" class="form-control" id="correo" name="correo" placeholder="Correo" required>
+                              <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo" required>
                           </div>
                           <div class="form-group">
                               <label for="anexo">Anexo</label>

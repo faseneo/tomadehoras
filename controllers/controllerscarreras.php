@@ -43,7 +43,12 @@ if(isset($_REQUEST['Accion'])){
         case 'listar':
             $jsondata = $modelCarr->Listar();
             echo json_encode($jsondata);
-            break;            
+            break;
+
+        case 'listar_car_disp':
+            $jsondata = $modelCarr->Listar_car_disp();
+            echo json_encode($jsondata);
+            break;                
     }
 }
 
